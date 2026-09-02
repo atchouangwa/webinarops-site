@@ -25,7 +25,7 @@ const pages = [
   {
     file: 'home.png',
     eyebrow: 'WEBINAR-FIRST GROWTH FOR INFO BUSINESSES',
-    title: ['Stop Building New Funnels.', 'Start Running This Webinar More Often.'],
+    title: ['Stop Building New Funnels', '& Run More Webinars.'],
     sub: 'WebinarOps operates the complete webinar revenue system for education businesses.',
   },
   {
