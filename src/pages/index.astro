@@ -1,0 +1,398 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+export const prerender = true;
+
+const mechanism = [
+  { n: '01', t: 'Click', d: 'Creative, angle, audience, cost per click', note: 'Sets the entry price of every registrant behind it.' },
+  { n: '02', t: 'Register', d: 'Page conversion, cost per registration, VIP upgrade', note: 'Decides how many registrants a fixed budget buys.' },
+  { n: '03', t: 'Attend', d: 'Reminder sequence, show rate, watch time', note: 'Decides how many of them ever hear the offer.' },
+  { n: '04', t: 'Buy', d: 'Live conversion, replay window, checkout recovery', note: 'Two conversion windows. Most funnels count one.' },
+  { n: '05', t: 'Ascend', d: 'Bumps, upsells, high ticket, continuity', note: 'Raises revenue per buyer without raising spend.' },
+  { n: '06', t: 'Return', d: 'What the run taught, fed into the next one', note: 'Makes the next run cheaper than this one.', accent: true },
+];
+
+const addingComplexity = [
+  'Four mechanisms, none of them measured to the point of a decision',
+  'Attention divided across launches that each run once a quarter',
+  'No mechanism accumulates enough data to isolate a single variable',
+  'Every new build restarts the learning curve from zero',
+];
+const extractingFirst = [
+  'One mechanism, run often enough to produce real data',
+  'Every stage priced, instrumented, and owned by name',
+  'One variable isolated per cycle, so the learning compounds',
+  'Complexity added only when the data justifies it',
+];
+
+const comparisonRows = [
+  { variable: 'Ownership of the number', them: 'Split across five contracts. Each vendor reports their own metric.', us: 'One team accountable for registration through backend revenue.' },
+  { variable: 'Cadence', them: 'A launch per quarter. Four data points a year.', us: 'Recurring runs against one calendar, one dashboard, one review.' },
+  { variable: 'Diagnosis', them: '"The ad is fine, it must be the page." Nobody can settle it.', us: 'One constraint named per cycle, with the math behind the claim.' },
+  { variable: 'Monetization depth', them: 'Core offer only. VIP, bumps, and backend are afterthoughts.', us: 'Every revenue event priced, positioned, and measured separately.' },
+  { variable: 'Speed', them: 'Three calendars and three inboxes per handoff.', us: 'One calendar. Decisions and assets are the only constraint.' },
+];
+
+const layers = [
+  { n: '01', t: 'Front end', d: 'Registration page conversion, VIP upgrade, and the cost of every registrant that enters the system.', leak: 'Common leak: no VIP tier, so a registrant is worth nothing until the core sale.', tags: 'Registrations · CPR · VIP take rate' },
+  { n: '02', t: 'Post-webinar', d: 'Replay, deadline, abandoned checkout, and no-sale follow-up. Usually the second-largest revenue window, usually unowned.', leak: null, tags: 'Replay conversion · recovery' },
+  { n: '03', t: 'Buyer monetization', d: 'Order bumps, upsells, and downsells offered to buyers rather than to attendees - a different and far better audience.', leak: 'Common leak: nothing is offered after the card clears, so intent expires at one transaction.', tags: 'Bump · upsell · downsell take rates' },
+  { n: '04', t: 'Backend', d: 'High-ticket ascension and continuity. Whether a buyer is worth one transaction or three is decided here.', leak: 'Common leak: no defined ascension path, so the best customers are never asked.', tags: 'Ascension rate · retention' },
+  { n: '05', t: 'Intelligence', d: 'Attribution, tracking, and the forecast-versus-actual record. This layer is what makes the next run cheaper than this one.', leak: 'Common leak: gaps counted as zeroes, which quietly rewrite every rate above.', tags: 'Attribution integrity · variance', accent: true },
+];
+
+const loop = [
+  { t: 'Run', d: 'Launch on cadence with one variable deliberately isolated.', leaves: 'What it leaves behind: a clean run with exactly one known change in it.' },
+  { t: 'Learn', d: 'Read the run against the forecast and name the variance.', leaves: 'What it leaves behind: a written record of where the model was wrong.' },
+  { t: 'Improve', d: 'Change the constraint, not the thing that is easiest to change.', leaves: 'What it leaves behind: a decision with the arithmetic still attached to it.' },
+  { t: 'Compound', d: 'Carry the instrumentation forward so nothing is relearned.', leaves: 'What it leaves behind: a baseline the next run starts from instead of guessing at.', accent: true },
+];
+
+const stages = [
+  { n: '01', t: 'Forecast', d: 'Model the economics and the break-even before anything is built.' },
+  { n: '02', t: 'Architect', d: 'Offer structure, funnel journey, and cadence designed together.' },
+  { n: '03', t: 'Build', d: 'Pages, sequences, checkout, tracking, and the sales handoff as one system.' },
+  { n: '04', t: 'Acquire', d: 'Paid acquisition with a testing structure that isolates one variable.' },
+  { n: '05', t: 'Operate', d: 'Recurring runs on one calendar, against one set of numbers.' },
+  { n: '06', t: 'Optimize', d: 'Weekly review against every stage, one change per cycle.' },
+  { n: '07', t: 'Extract', d: 'Open the layers the funnel is not yet monetizing: VIP, replay, bumps, backend.' },
+  { n: '08', t: 'Expand', d: 'Add a second mechanism only once the first one is measured and improving.', accent: true },
+];
+
+const strongFit = [
+  'A validated education offer with real customers',
+  'Willing to run the webinar repeatedly, not once',
+  'Able to invest in paid acquisition, paid directly to the platforms',
+  'Fulfillment capacity to serve more customers',
+  'Comfortable making decisions from performance data',
+  'Wants one accountable partner rather than five vendors',
+];
+const notReady = [
+  'No existing offer, or still choosing a business model',
+  'Wants a one-time funnel build or a landing page only',
+  'Unwilling to invest in paid acquisition',
+  'Cannot support additional customers',
+  'Expects a guaranteed result',
+  'Wants the mechanism replaced rather than measured',
+];
+
+const forecastSteps = [
+  { t: 'Contact and attribution', d: 'Who you are, and where this session came from.' },
+  { t: 'Business and offer', d: 'What you sell, at what price, to whom, with what capacity.' },
+  { t: 'Current funnel baseline', d: 'Raw counts where you have them, rates where you track them.' },
+  { t: 'Unit economics', d: 'Cash collected, cost of delivery, and every monetization layer.' },
+  { t: 'Scenario and goals', d: 'Cadence, budget, targets, and your maximum acceptable acquisition cost.' },
+  { t: 'Review and submit', d: 'Every value labelled reported, derived, estimated, or unknown.' },
+];
+
+const faqs = [
+  { q: 'What does WebinarOps actually do?', a: 'We build, launch, operate, and improve the acquisition and monetization system around a webinar: offer strategy, funnel architecture, paid acquisition, creative, email and SMS, sales infrastructure, attribution, reporting, and weekly optimization. Those are components of the engine, not products sold separately.' },
+  { q: 'Why webinar first instead of a full funnel ecosystem?', a: 'Because a second mechanism divides the attention and the budget of the first one before the first one has been measured. Extracting the value already sitting inside the webinar is faster, cheaper, and produces the data that tells you whether the second mechanism is even the right one.' },
+  { q: 'Do I need an existing offer?', a: 'Yes. This is the requirement with no exceptions. We build the acquisition system around your offer; we do not create the offer or the expertise behind it.' },
+  { q: 'Is the forecast a guarantee?', a: 'No. It is a model built from the numbers and assumptions you enter. Change an assumption and the output changes. Its value is that it makes the assumptions visible and arguable before you spend against them.' },
+  { q: 'What if I do not have complete webinar data?', a: 'Mark it unknown. Unknown values stay unknown rather than being quietly treated as zero, and the outputs that depend on them are shown as unavailable. Where you have raw counts but not rates, enter the counts and the model derives the rate and shows the formula.' },
+  { q: 'Does the client cover advertising spend?', a: 'Yes. Advertising spend is paid separately and directly by you to the advertising platforms. It never passes through WebinarOps. Some third-party software may also carry its own platform fees.' },
+  { q: 'Can you work with our existing team?', a: 'Usually yes. We take ownership of the acquisition and monetization system while your team keeps delivery, subject-matter expertise, and the brand. Where a sales team already exists, we coordinate with it rather than replacing it.' },
+  { q: 'Where are your case studies?', a: 'Not published. We do not publish a client, a logo, a testimonial, or a number without written approval and verified data, and we are not willing to fill the gap with numbers we cannot attribute. What we can show you is the operating standard and the model.' },
+];
+---
+<Layout title="WebinarOps — Webinar-First Growth for Info Businesses">
+<main>
+
+  <section class="section" style="position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:url(/assets/bg-signal-wave.png);background-size:cover;background-position:center right;opacity:.5"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,#000 0%,rgba(0,0,0,.86) 45%,rgba(0,0,0,.35) 100%)"></div>
+    <div class="container" style="position:relative;padding:104px 32px 88px">
+      <div style="display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:56px;align-items:center">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px">
+            <span style="width:6px;height:6px;border-radius:50%;background:#2F6BFF;animation:woPulse 2.4s ease-in-out infinite"></span>
+            <span style="font-size:11px;font-weight:600;letter-spacing:.2em;color:#8D9AAF">WEBINAR-FIRST GROWTH FOR INFO BUSINESSES</span>
+          </div>
+          <h1 class="h1" style="max-width:20ch">Before You Build Another Funnel, Extract Everything From The Webinar.</h1>
+          <p style="margin:28px 0 0;max-width:56ch;font-size:18px;line-height:1.55;color:#A8B3C4">WebinarOps operates the complete webinar revenue system, from acquisition and registration through replay, ascension, and retention, so each run produces revenue, intelligence, and a better next decision.</p>
+          <div style="margin-top:40px;display:flex;flex-wrap:wrap;align-items:center;gap:20px">
+            <a href="/forecast" class="btn btn-primary">Build My Webinar Forecast</a>
+            <span style="font-size:13px;line-height:1.5;color:#6B7688;max-width:32ch">Six guided steps. Use exact numbers or mark what you do not know. Forecasts are estimates, not guarantees.</span>
+          </div>
+          <div style="margin-top:30px;font-size:12px;font-weight:600;letter-spacing:.1em;color:#5A6474">FORECASTING &middot; ACQUISITION &middot; FUNNEL BUILD &middot; ATTRIBUTION &middot; OPTIMIZATION &middot; MONETIZATION</div>
+        </div>
+        <div>
+          <div class="dash-frame"><img src="/assets/dash-portfolio.png" alt="WebinarOps Analytics OS portfolio view, shown with fictional demonstration data" /></div>
+          <div class="dash-caption" style="display:flex;flex-wrap:wrap;gap:14px"><span>Analytics OS &middot; portfolio view</span><span style="color:#5A6474">Demonstration data</span></div>
+        </div>
+      </div>
+      <div style="margin-top:64px;display:flex;flex-wrap:wrap;gap:0;border-top:1px solid rgba(255,255,255,.08);max-width:840px">
+        <div style="flex:1;min-width:200px;padding:24px 28px 0 0;border-right:1px solid rgba(255,255,255,.08)">
+          <div style="font-size:11px;font-weight:600;letter-spacing:.18em;color:#6B7688;margin-bottom:10px">DOCTRINE</div>
+          <div style="font-size:17px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px">Webinar First. Expansion Second.</div><div style="font-size:13.5px;line-height:1.55;color:#8D9AAF">A second mechanism divides the budget and the attention of the first one. We finish the first one.</div>
+        </div>
+        <div style="flex:1;min-width:200px;padding:24px 28px 0;border-right:1px solid rgba(255,255,255,.08)">
+          <div style="font-size:11px;font-weight:600;letter-spacing:.18em;color:#6B7688;margin-bottom:10px">METHOD</div>
+          <div style="font-size:17px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px">Run. Learn. Improve. Compound.</div><div style="font-size:13.5px;line-height:1.55;color:#8D9AAF">Cadence, not launches. Each run is read against the forecast and hands its learning to the next one.</div>
+        </div>
+        <div style="flex:1;min-width:200px;padding:24px 0 0 28px">
+          <div style="font-size:11px;font-weight:600;letter-spacing:.18em;color:#6B7688;margin-bottom:10px">OWNERSHIP</div>
+          <div style="font-size:17px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px">One System. One Accountable Team.</div><div style="font-size:13.5px;line-height:1.55;color:#8D9AAF">Acquisition, funnel, conversion, and attribution answer to the same people and the same numbers.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container section--pad-lg">
+      <div class="eyebrow">THE MECHANISM</div>
+      <h2 class="h2-md" style="max-width:24ch">One mechanism. Multiple revenue events.</h2>
+      <p class="lede">Six stages, each with its own economics. Most teams instrument two of them and guess at the rest.</p>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid rgba(255,255,255,.09);border-radius:10px;overflow:hidden">
+        {mechanism.map((m, i) => (
+          <div style={`padding:26px 20px;background:#07090E;${i < mechanism.length - 1 ? 'border-right:1px solid rgba(255,255,255,.09)' : ''}`}>
+            <div style={`font-size:11px;font-weight:700;letter-spacing:.14em;margin-bottom:14px;color:${m.accent ? '#4AC7FF' : '#2F6BFF'}`}>{m.n}</div>
+            <div style="font-size:16px;font-weight:700;margin-bottom:8px">{m.t}</div>
+            <div style="font-size:12.5px;line-height:1.5;color:#6B7688">{m.d}</div>
+            <div style="margin-top:10px;font-size:12px;line-height:1.45;color:#5A6474">{m.note}</div>
+          </div>
+        ))}
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:20px">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(47,107,255,.15),#2F6BFF 70%,#4AC7FF)"></div>
+        <div style="font-size:12px;font-weight:600;color:#4AC7FF;letter-spacing:.06em">Every run returns to the top with better inputs</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container section--pad-lg">
+      <div class="eyebrow">THE PROBLEM</div>
+      <h2 class="h2-lg" style="max-width:26ch">Mechanism Hopping Resets the Learning Curve.</h2>
+      <p class="lede" style="max-width:66ch">When a webinar underperforms, most teams add another funnel before learning why. Budget, attention, ownership, and data split across mechanisms, and none of them becomes predictable enough to scale. The argument here is sequencing, not ideology: finish reading the first mechanism before you fund a second. We earn the right to add complexity.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div class="card" style="padding:32px">
+          <div style="font-size:11px;font-weight:600;letter-spacing:.18em;color:#FF6262;margin-bottom:20px">ADDING COMPLEXITY</div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            {addingComplexity.map((c) => (
+              <div style="display:flex;gap:14px;align-items:flex-start"><span style="width:5px;height:5px;border-radius:50%;background:#FF6262;margin-top:8px;flex:none"></span><span style="font-size:15px;line-height:1.5;color:#DCE5F3">{c}</span></div>
+            ))}
+          </div>
+        </div>
+        <div style="border:1px solid rgba(47,107,255,.32);border-radius:12px;padding:32px;background:linear-gradient(180deg,rgba(47,107,255,.07),rgba(47,107,255,0))">
+          <div style="font-size:11px;font-weight:600;letter-spacing:.18em;color:#5D8BFF;margin-bottom:20px">EXTRACTING FIRST</div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            {extractingFirst.map((c) => (
+              <div style="display:flex;gap:14px;align-items:flex-start"><span style="width:5px;height:5px;border-radius:50%;background:#2F6BFF;margin-top:8px;flex:none"></span><span style="font-size:15px;line-height:1.5;color:#fff">{c}</span></div>
+            ))}
+          </div>
+          <div style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(47,107,255,.22);font-size:15px;font-weight:700;color:#5D8BFF">We earn the right to add complexity.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container section--pad-lg">
+      <div class="eyebrow">THE COMPARISON</div>
+      <h2 class="h2-lg" style="margin-bottom:48px;max-width:24ch">Multiple Vendors Own Deliverables. WebinarOps Owns the Economics.</h2>
+      <div style="border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:1.1fr 1fr 1fr;background:#07090E;border-bottom:1px solid rgba(255,255,255,.09)">
+          <div style="padding:18px 24px;font-size:11px;font-weight:600;letter-spacing:.18em;color:#6B7688">VARIABLE</div>
+          <div style="padding:18px 24px;font-size:11px;font-weight:600;letter-spacing:.18em;color:#6B7688;border-left:1px solid rgba(255,255,255,.09)">TRADITIONAL VENDOR STACK</div>
+          <div style="padding:18px 24px;font-size:11px;font-weight:600;letter-spacing:.18em;color:#5D8BFF;border-left:1px solid rgba(255,255,255,.09)">WEBINAROPS</div>
+        </div>
+        {comparisonRows.map((r, i) => (
+          <div style={`display:grid;grid-template-columns:1.1fr 1fr 1fr;${i < comparisonRows.length - 1 ? 'border-bottom:1px solid rgba(255,255,255,.07)' : ''}`}>
+            <div style="padding:20px 24px;font-size:15px;font-weight:600">{r.variable}</div>
+            <div style="padding:20px 24px;font-size:14px;line-height:1.5;color:#8D9AAF;border-left:1px solid rgba(255,255,255,.07)">{r.them}</div>
+            <div style="padding:20px 24px;font-size:14px;line-height:1.5;color:#DCE5F3;border-left:1px solid rgba(255,255,255,.07);background:rgba(47,107,255,.04)">{r.us}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container section--pad-lg">
+      <div class="eyebrow">THE ECONOMIC MAP</div>
+      <h2 class="h2-lg" style="max-width:26ch">The Live Webinar Is Only One Revenue Window.</h2>
+      <p class="lede">Five layers sit inside one webinar. A funnel that monetizes only the first is not underperforming, it is unfinished. Opening the others raises what every registrant and every run is worth, not just one conversion rate.</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        {layers.map((l) => (
+          <div style={`display:grid;grid-template-columns:200px 1fr 180px;gap:0;border-radius:10px;overflow:hidden;${l.accent ? 'border:1px solid rgba(74,199,255,.28);background:linear-gradient(90deg,rgba(74,199,255,.06),rgba(74,199,255,0))' : 'border:1px solid rgba(255,255,255,.09);background:#05070B'}`}>
+            <div style={`padding:24px;display:flex;flex-direction:column;gap:8px;border-right:1px solid ${l.accent ? 'rgba(74,199,255,.2)' : 'rgba(255,255,255,.09)'}`}>
+              <span style={`font-size:11px;font-weight:700;letter-spacing:.14em;color:${l.accent ? '#4AC7FF' : '#2F6BFF'}`}>LAYER {l.n}</span>
+              <span style="font-size:17px;font-weight:700;letter-spacing:-.01em">{l.t}</span>
+            </div>
+            <div style={`padding:24px;border-right:1px solid ${l.accent ? 'rgba(74,199,255,.2)' : 'rgba(255,255,255,.09)'};font-size:14.5px;line-height:1.55;color:${l.accent ? '#DCE5F3' : '#A8B3C4'}`}>
+              {l.d}
+              {l.leak && <div style={`margin-top:10px;font-size:12.5px;line-height:1.5;color:${l.accent ? '#8D9AAF' : '#6B7688'}`}>{l.leak}</div>}
+            </div>
+            <div style={`padding:24px;display:flex;align-items:center;font-size:12.5px;line-height:1.4;color:${l.accent ? '#8D9AAF' : '#6B7688'}`}>{l.tags}</div>
+          </div>
+        ))}
+      </div>
+      <div style="margin-top:56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center">
+        <div>
+          <h3 style="margin:0 0 14px;font-size:22px;font-weight:700;letter-spacing:-.02em">Layer five, in practice.</h3>
+          <p style="margin:0;font-size:15.5px;line-height:1.6;color:#A8B3C4">Every campaign is traced forward into registrations, buyers, and attributed revenue, so a budget decision is argued from the downstream number rather than from click cost. Values shown are demonstration data.</p>
+        </div>
+        <div class="dash-frame"><img src="/assets/dash-acquisition.png" alt="Acquisition intelligence view connecting campaigns to registrations, buyers and revenue, shown with fictional demonstration data" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" style="position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:url(/assets/bg-pulse-rings.png);background-size:cover;background-position:center;opacity:.55"></div>
+    <div class="container section--pad-lg" style="position:relative">
+      <div class="eyebrow">THE LOOP</div>
+      <h2 class="h2-lg" style="max-width:24ch">Every webinar should make the next one smarter.</h2>
+      <p class="lede" style="max-width:60ch">Four steps, repeated. The value is not in any single run - it is in the fact that nothing is thrown away between runs.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+        {loop.map((s) => (
+          <div style={`border-radius:12px;padding:28px;background:rgba(5,7,11,.72);border:1px solid ${s.accent ? 'rgba(74,199,255,.3)' : 'rgba(255,255,255,.1)'}`}>
+            <div style={`font-size:38px;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:20px;color:${s.accent ? '#4AC7FF' : '#2F6BFF'}`}>{s.t}</div>
+            <div style={`font-size:14px;line-height:1.55;color:${s.accent ? '#DCE5F3' : '#A8B3C4'}`}>{s.d}</div>
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.09);font-size:12.5px;line-height:1.5;color:#6B7688">{s.leaves}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container section--pad-lg">
+      <div class="eyebrow">WHAT WE OPERATE</div>
+      <h2 class="h2-lg" style="max-width:22ch">Eight stages. One accountable team.</h2>
+      <p class="lede" style="max-width:62ch">Expansion is the last stage, not the first. Nothing here is sold separately, because none of it works separately.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden">
+        {stages.map((s) => (
+          <div style={s.accent ? 'background:linear-gradient(180deg,rgba(74,199,255,.07),#05070B);padding:28px 24px' : 'background:#05070B;padding:28px 24px'}>
+            <div style={`font-size:11px;font-weight:700;letter-spacing:.14em;margin-bottom:16px;color:${s.accent ? '#4AC7FF' : '#2F6BFF'}`}>{s.n}</div>
+            <div style="font-size:17px;font-weight:700;margin-bottom:10px;letter-spacing:-.01em">{s.t}</div>
+            <div style={`font-size:13.5px;line-height:1.55;color:${s.accent ? '#DCE5F3' : '#8D9AAF'}`}>{s.d}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container section--pad-lg">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:56px;align-items:center">
+        <div>
+          <div class="eyebrow">WEBINAROPS ANALYTICS OS</div>
+          <h2 class="h2-md">See What Happened. Know What to Change Next.</h2>
+          <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:#A8B3C4;max-width:56ch">WebinarOps connects acquisition, registrations, attendance, buyer behavior, and attributed revenue in one operating view. Every run is measured against the forecast, every variance is visible, and every optimization cycle names one constraint.</p>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="dot-item">What is live now, and what is next on the calendar</div>
+            <div class="dot-item">Which clients and runs are below target, named not buried</div>
+            <div class="dot-item">Tracking gaps flagged as gaps, never quietly counted as zero</div>
+          </div>
+        </div>
+        <div>
+          <div class="dash-frame"><img src="/assets/dash-today.png" alt="WebinarOps Analytics OS daily operating view, shown with fictional demonstration data" /></div>
+          <div class="dash-caption">Interface shown with fictional demonstration data. No displayed figure represents a client result or expected outcome.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container section--pad-lg">
+      <div class="eyebrow">QUALIFICATION</div>
+      <h2 class="h2-lg" style="margin-bottom:48px;max-width:22ch">Built for Businesses Ready to Operate the Webinar Repeatedly.</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div style="border:1px solid rgba(39,209,127,.26);border-radius:12px;padding:32px;background:linear-gradient(180deg,rgba(39,209,127,.05),rgba(39,209,127,0))">
+          <div style="font-size:11px;font-weight:600;letter-spacing:.18em;color:#27D17F;margin-bottom:24px">STRONG FIT</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            {strongFit.map((f) => (
+              <div style="font-size:15px;line-height:1.5;color:#fff;padding-left:20px;position:relative"><span style="position:absolute;left:0;top:0;color:#27D17F;font-weight:700">+</span>{f}</div>
+            ))}
+          </div>
+        </div>
+        <div class="card" style="padding:32px">
+          <div style="font-size:11px;font-weight:600;letter-spacing:.18em;color:#8D9AAF;margin-bottom:24px">NOT READY YET</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            {notReady.map((f) => (
+              <div style="font-size:15px;line-height:1.5;color:#8D9AAF;padding-left:20px;position:relative"><span style="position:absolute;left:0;top:0;color:#6B7688;font-weight:700">&minus;</span>{f}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:36px;display:flex;flex-wrap:wrap;align-items:center;gap:18px">
+        <a href="/forecast" class="btn btn-primary btn-primary--sm">See What the Numbers Support</a>
+        <span style="font-size:13px;line-height:1.5;color:#6B7688;max-width:40ch">The forecast is the fastest way to settle whether this is a fit, in either direction.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container section--pad-lg">
+      <div class="eyebrow">THE FORECAST</div>
+      <h2 class="h2-lg" style="max-width:26ch">Model the economics before you scale the spend.</h2>
+      <p class="lede">Six steps, roughly nine minutes. You enter what you know, mark what you do not, and the model shows the range your funnel currently supports - along with the stage that is capping it.</p>
+      <div style="display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          {forecastSteps.map((s, i) => (
+            <div style="display:flex;gap:16px;align-items:flex-start">
+              <span style="flex:none;width:26px;height:26px;border-radius:6px;border:1px solid rgba(47,107,255,.4);color:#5D8BFF;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">{i + 1}</span>
+              <div><div style="font-size:15px;font-weight:600;margin-bottom:4px">{s.t}</div><div style="font-size:13.5px;line-height:1.5;color:#6B7688">{s.d}</div></div>
+            </div>
+          ))}
+          <a href="/forecast" class="btn btn-primary btn-primary--sm" style="margin-top:20px;align-self:flex-start">Build My Webinar Forecast</a>
+        </div>
+        <div class="card" style="overflow:hidden">
+          <div style="padding:16px 22px;border-bottom:1px solid rgba(255,255,255,.09);display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:12.5px;font-weight:600;letter-spacing:.1em;color:#8D9AAF">EXAMPLE OUTPUT</span>
+            <span class="badge badge--amber">ILLUSTRATIVE ONLY</span>
+          </div>
+          <div style="padding:26px 22px">
+            <div style="font-size:12px;font-weight:600;letter-spacing:.14em;color:#6B7688;margin-bottom:8px">MODELLED MONTHLY GROSS</div>
+            <div style="font-size:40px;font-weight:800;letter-spacing:-.035em;line-height:1;margin-bottom:6px;font-variant-numeric:tabular-nums">$268,400</div>
+            <div style="font-size:13px;color:#8D9AAF;margin-bottom:26px">Target scenario · 2 runs · $30,000 media</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.09);border-radius:8px;overflow:hidden;margin-bottom:22px">
+              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">CONSERVATIVE</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">$198,900</div></div>
+              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">UPSIDE</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">$331,700</div></div>
+              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">CASH-ON-CASH</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">8.94x</div></div>
+              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">BREAK-EVEN CPR</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">$125.16</div></div>
+            </div>
+            <div style="border:1px solid rgba(243,185,68,.28);background:rgba(243,185,68,.05);border-radius:8px;padding:16px 18px;margin-bottom:20px">
+              <div style="font-size:11px;font-weight:600;letter-spacing:.14em;color:#F3B944;margin-bottom:8px">LARGEST MODELLED CONSTRAINT</div>
+              <div style="font-size:14.5px;line-height:1.5;color:#DCE5F3">Replay window. No deadline is set and the replay is mailed once, so the model cannot credit the second conversion window.</div>
+            </div>
+            <div style="font-size:12px;line-height:1.55;color:#6B7688">Forecasts are estimates based on the information and assumptions provided. They are not guarantees of revenue, profitability, advertising performance, or business results.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container section--pad-lg" style="display:grid;grid-template-columns:340px 1fr;gap:64px;align-items:start">
+      <div>
+        <div class="eyebrow">QUESTIONS</div>
+        <h2 class="h2-md" style="margin:0">Before you start the forecast</h2>
+      </div>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <div class="faq-answer">{f.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section style="position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:url(/assets/bg-signal-wave.png);background-size:cover;background-position:center;opacity:.45"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.5),#000)"></div>
+    <div class="container section--pad-xl" style="position:relative;text-align:center">
+      <div class="eyebrow" style="margin-bottom:22px">MODEL BEFORE YOU SCALE</div>
+      <h2 style="margin:0 auto 22px;max-width:20ch;font-size:clamp(30px,3.6vw,50px);line-height:1.08;letter-spacing:-.03em;font-weight:800">Find the Constraint Before You Fund It.</h2>
+      <p style="margin:0 auto 36px;max-width:56ch;font-size:17px;line-height:1.6;color:#A8B3C4">Build a webinar forecast, pressure-test the assumptions behind it, and see which stage deserves the next dollar of attention or spend. You will know what your current numbers support before you commit more of them.</p>
+      <a href="/forecast" class="btn btn-primary" style="padding:17px 32px">Build My Webinar Forecast</a>
+      <div style="margin-top:18px;font-size:13px;color:#6B7688">Six guided steps &middot; roughly nine minutes &middot; estimates, not guarantees</div>
+    </div>
+  </section>
+
+</main>
+</Layout>
