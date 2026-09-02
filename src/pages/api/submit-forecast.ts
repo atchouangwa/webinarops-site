@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import type { CalcResult, ForecastForm } from '../../lib/forecast';
-import { money, fmt } from '../../lib/forecast';
+import { money, fmt, fitScore, QUALIFICATION_QUESTIONS } from '../../lib/forecast';
 
 export const prerender = false;
 
@@ -122,10 +122,18 @@ function buildEmailHtml(body: SubmitBody): string {
     row('utm_campaign', form.attribution.utmCampaign) +
     row('Captured at', form.attribution.capturedAt);
 
+  const { yes, total } = fitScore(form.qualification);
+  const fitColor = yes === total ? '#0A8A4B' : yes >= total / 2 ? '#B7791F' : '#B42318';
+  const fitRows = QUALIFICATION_QUESTIONS
+    .map((q) => row(q.label, form.qualification[q.key] ? capitalize(form.qualification[q.key]) : 'Not answered'))
+    .join('');
+
   return `
   <div style="font-family:-apple-system,Helvetica,Arial,sans-serif;color:#111;max-width:640px">
     <h2 style="margin:0 0 4px">New webinar forecast submission</h2>
     <p style="margin:0 0 16px;color:#6B7688;font-size:13px">${escapeHtml(c.firstName)} ${escapeHtml(c.lastName)} &middot; ${escapeHtml(c.company || 'no company given')}</p>
+    <div style="display:inline-block;padding:6px 12px;border-radius:6px;background:${fitColor};color:#fff;font-size:13px;font-weight:700;margin-bottom:8px">Fit check: ${yes} / ${total} yes</div>
+    ${section('Quick fit check', fitRows)}
     ${section('Modelled outcome (target scenario)', modelRows)}
     ${section('Contact', contactRows)}
     ${section('Business and offer', businessRows)}
@@ -134,6 +142,10 @@ function buildEmailHtml(body: SubmitBody): string {
     ${section('Scenario assumptions', scenarioRows)}
     ${section('Attribution', attributionRows)}
   </div>`;
+}
+
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -163,11 +175,12 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     const resend = new Resend(apiKey);
+    const { yes, total } = fitScore(body.form.qualification);
     const { error } = await resend.emails.send({
       from,
       to,
       replyTo: c.email,
-      subject: `New forecast: ${c.firstName} ${c.lastName}${c.company ? ` (${c.company})` : ''}`,
+      subject: `[Fit ${yes}/${total}] New forecast: ${c.firstName} ${c.lastName}${c.company ? ` (${c.company})` : ''}`,
       html: buildEmailHtml(body),
     });
     if (error) {

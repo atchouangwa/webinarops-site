@@ -78,6 +78,37 @@ export interface ScenarioFields {
   replay: number;
 }
 
+export type FitAnswer = '' | 'yes' | 'no' | 'unsure';
+
+export interface QualificationFields {
+  validatedOffer: FitAnswer;
+  repeatCadence: FitAnswer;
+  paidAcquisition: FitAnswer;
+  fulfillmentCapacity: FitAnswer;
+  dataDriven: FitAnswer;
+  onePartner: FitAnswer;
+}
+
+export const QUALIFICATION_QUESTIONS: { key: keyof QualificationFields; label: string }[] = [
+  { key: 'validatedOffer', label: 'Do you have a validated offer with real, paying customers?' },
+  { key: 'repeatCadence', label: 'Willing to run the webinar repeatedly, not just once?' },
+  { key: 'paidAcquisition', label: 'Able to invest in paid acquisition, paid directly to the ad platforms?' },
+  { key: 'fulfillmentCapacity', label: 'Fulfillment capacity to serve more customers?' },
+  { key: 'dataDriven', label: 'Comfortable making decisions from performance data?' },
+  { key: 'onePartner', label: 'Looking for one accountable partner rather than several vendors?' },
+];
+
+export const emptyQualification: QualificationFields = {
+  validatedOffer: '', repeatCadence: '', paidAcquisition: '', fulfillmentCapacity: '', dataDriven: '', onePartner: '',
+};
+
+/** Count of "yes" answers out of the total question count, for lead triage. */
+export function fitScore(q: QualificationFields): { yes: number; total: number } {
+  const total = QUALIFICATION_QUESTIONS.length;
+  const yes = QUALIFICATION_QUESTIONS.filter((item) => q[item.key] === 'yes').length;
+  return { yes, total };
+}
+
 export interface AttributionInfo {
   landingPage: string;
   referrer: string;
@@ -90,6 +121,7 @@ export interface AttributionInfo {
 }
 
 export interface ForecastForm {
+  qualification: QualificationFields;
   contact: ContactFields;
   business: BusinessFields;
   baseline: BaselineFields;

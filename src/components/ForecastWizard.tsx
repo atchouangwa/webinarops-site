@@ -3,12 +3,17 @@ import type { ChangeEvent } from 'react';
 import {
   type ForecastForm,
   type ScenarioFields,
+  type QualificationFields,
+  type FitAnswer,
+  QUALIFICATION_QUESTIONS,
+  emptyQualification,
   emptyContact,
   emptyBusiness,
   emptyBaseline,
   emptyEconomics,
   defaultScenario,
   calcScenario,
+  fitScore,
   money,
   fmt,
 } from '../lib/forecast';
@@ -96,9 +101,48 @@ function NumberField({
   );
 }
 
+const FIT_OPTIONS: { value: FitAnswer; label: string }[] = [
+  { value: 'yes', label: 'Yes' },
+  { value: 'no', label: 'No' },
+  { value: 'unsure', label: 'Not sure' },
+];
+
+function FitToggle({ label, value, onChange }: { label: string; value: FitAnswer; onChange: (v: FitAnswer) => void }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, padding: '14px 0', borderTop: '1px solid rgba(255,255,255,.08)' }}>
+      <span style={{ fontSize: 14, lineHeight: 1.4, color: '#DCE5F3', maxWidth: '46ch' }}>{label}</span>
+      <div style={{ display: 'flex', gap: 6, flex: 'none' }}>
+        {FIT_OPTIONS.map((opt) => {
+          const active = value === opt.value;
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onChange(active ? '' : opt.value)}
+              style={{
+                fontSize: 12.5,
+                fontWeight: 600,
+                padding: '8px 14px',
+                borderRadius: 6,
+                cursor: 'pointer',
+                border: active ? '1px solid #2F6BFF' : '1px solid rgba(255,255,255,.14)',
+                background: active ? 'rgba(47,107,255,.16)' : 'transparent',
+                color: active ? '#fff' : '#8D9AAF',
+              }}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function ForecastWizard() {
   const [phase, setPhase] = useState<Phase>('form');
   const [step, setStep] = useState(1);
+  const [qualification, setQualification] = useState<QualificationFields>(emptyQualification);
   const [contact, setContact] = useState(emptyContact);
   const [business, setBusiness] = useState(emptyBusiness);
   const [baseline, setBaseline] = useState(emptyBaseline);
@@ -176,7 +220,7 @@ export default function ForecastWizard() {
     setSubmitStatus('submitting');
     setSubmitError('');
     const payload: ForecastForm = {
-      contact, business, baseline, economics, scenario, attribution,
+      qualification, contact, business, baseline, economics, scenario, attribution,
       consentProcessing, consentEstimate,
     };
     try {
@@ -200,6 +244,8 @@ export default function ForecastWizard() {
 
   const stepPct = (step / 6) * 100 + '%';
 
+  const { yes: fitYes, total: fitTotal } = fitScore(qualification);
+  const fitAnswered = Object.values(qualification).filter((v) => v).length;
   const contactReported = [contact.firstName, contact.lastName, contact.email, contact.phone, contact.company, contact.website, contact.countryTz, contact.role].filter((v) => v.trim()).length;
   const businessReported = Object.values(business).filter((v) => v.trim()).length;
   const baselineReported = Object.values(baseline).filter((v) => v.trim()).length;
@@ -225,17 +271,17 @@ export default function ForecastWizard() {
           <div className="container" style={{ maxWidth: 1180, padding: '72px 32px 56px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 22 }}>
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#27D17F' }} />
-              <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.2em', color: '#27D17F' }}>FORECAST SUBMITTED</span>
+              <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.2em', color: '#27D17F' }}>FORECAST BUILT</span>
             </div>
             <h1 className="h1" style={{ maxWidth: '26ch', fontSize: 'clamp(30px,3.6vw,50px)', lineHeight: 1.06, letterSpacing: '-.03em' }}>
-              Your Inputs Are In. Now Let&rsquo;s Review What the Numbers Actually Mean.
+              Here&rsquo;s Your Modelled Forecast.
             </h1>
             <p style={{ margin: '26px 0 36px', maxWidth: '66ch', fontSize: 17, lineHeight: 1.6, color: '#A8B3C4' }}>
-              Choose a time below for a Webinar Forecast Review. We&rsquo;ll pressure-test the assumptions, identify the biggest constraint in the model, and determine whether WebinarOps is the right operating partner for the next stage.
+              Built from the assumptions you entered, below. If you want a second pair of eyes on those assumptions and the constraint capping the model, book a 30-minute Webinar Forecast Review.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 1, background: 'rgba(255,255,255,.09)', border: '1px solid rgba(255,255,255,.09)', borderRadius: 10, overflow: 'hidden', maxWidth: 760 }}>
               <div style={{ background: '#05070B', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ color: '#27D17F', fontSize: 14, fontWeight: 700 }}>&check;</span><span style={{ fontSize: 13.5, fontWeight: 600, color: '#DCE5F3' }}>Submission received</span></div>
-              <div style={{ background: '#05070B', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ color: '#27D17F', fontSize: 14, fontWeight: 700 }}>&check;</span><span style={{ fontSize: 13.5, fontWeight: 600, color: '#DCE5F3' }}>Forecast queued for review</span></div>
+              <div style={{ background: '#05070B', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ color: '#27D17F', fontSize: 14, fontWeight: 700 }}>&check;</span><span style={{ fontSize: 13.5, fontWeight: 600, color: '#DCE5F3' }}>Forecast built</span></div>
               {booked ? (
                 <div style={{ background: 'rgba(39,209,127,.1)', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ color: '#27D17F', fontSize: 14, fontWeight: 700 }}>&check;</span><span style={{ fontSize: 13.5, fontWeight: 700, color: '#fff' }}>Call booked</span></div>
               ) : (
@@ -246,7 +292,49 @@ export default function ForecastWizard() {
         </section>
 
         <section className="section">
-          <div className="container" style={{ maxWidth: 1180, padding: '56px 32px', display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 48, alignItems: 'start' }}>
+          <div className="container" style={{ maxWidth: 1180, padding: '56px 32px' }}>
+            <div style={{ border: '1px solid rgba(47,107,255,.28)', borderRadius: 12, overflow: 'hidden', background: 'linear-gradient(180deg,rgba(47,107,255,.06),rgba(47,107,255,0))' }}>
+              <div style={{ padding: '14px 22px', borderBottom: '1px solid rgba(47,107,255,.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '.14em', color: '#5D8BFF' }}>YOUR MODELLED FORECAST · TARGET SCENARIO</span>
+                <span className="badge badge--amber">ESTIMATE</span>
+              </div>
+              <div style={{ padding: '26px 22px' }}>
+                <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.14em', color: '#6B7688', marginBottom: 8 }}>MODELLED MONTHLY GROSS</div>
+                <div style={{ fontSize: 40, fontWeight: 800, letterSpacing: '-.035em', lineHeight: 1, marginBottom: 22, fontVariantNumeric: 'tabular-nums' }}>{money(target.gross)}</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1, background: 'rgba(255,255,255,.09)', border: '1px solid rgba(255,255,255,.09)', borderRadius: 8, overflow: 'hidden', marginBottom: 22 }}>
+                  <div style={{ background: '#07090E', padding: '16px 18px' }}><div style={{ fontSize: 10.5, letterSpacing: '.12em', color: '#6B7688', marginBottom: 8 }}>REGISTRATIONS</div><div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.02em', fontVariantNumeric: 'tabular-nums' }}>{fmt(target.regs)}</div></div>
+                  <div style={{ background: '#07090E', padding: '16px 18px' }}><div style={{ fontSize: 10.5, letterSpacing: '.12em', color: '#6B7688', marginBottom: 8 }}>ATTENDEES</div><div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.02em', fontVariantNumeric: 'tabular-nums' }}>{fmt(target.attendees)}</div></div>
+                  <div style={{ background: '#07090E', padding: '16px 18px' }}><div style={{ fontSize: 10.5, letterSpacing: '.12em', color: '#6B7688', marginBottom: 8 }}>BUYERS</div><div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.02em', fontVariantNumeric: 'tabular-nums' }}>{fmt(target.buyers)}</div></div>
+                  <div style={{ background: '#07090E', padding: '16px 18px' }}><div style={{ fontSize: 10.5, letterSpacing: '.12em', color: '#6B7688', marginBottom: 8 }}>REV / REGISTRANT</div><div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.02em', fontVariantNumeric: 'tabular-nums' }}>${target.rpr.toFixed(2)}</div></div>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 22 }}>
+                  <div style={{ border: '1px solid rgba(255,255,255,.1)', borderRadius: 8, padding: '14px 16px' }}><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}><span style={{ fontSize: 12, letterSpacing: '.1em', color: '#8D9AAF' }}>CONSERVATIVE</span><span style={{ fontSize: 12, color: '#6B7688', fontVariantNumeric: 'tabular-nums' }}>{cons.roas.toFixed(2)}x</span></div><div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.02em', marginTop: 6, fontVariantNumeric: 'tabular-nums' }}>{money(cons.gross)}</div></div>
+                  <div style={{ border: '1px solid rgba(47,107,255,.4)', borderRadius: 8, padding: '14px 16px', background: 'rgba(47,107,255,.07)' }}><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}><span style={{ fontSize: 12, letterSpacing: '.1em', color: '#5D8BFF' }}>TARGET</span><span style={{ fontSize: 12, color: '#5D8BFF', fontVariantNumeric: 'tabular-nums' }}>{target.roas.toFixed(2)}x</span></div><div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.02em', marginTop: 6, fontVariantNumeric: 'tabular-nums' }}>{money(target.gross)}</div></div>
+                  <div style={{ border: '1px solid rgba(255,255,255,.1)', borderRadius: 8, padding: '14px 16px' }}><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}><span style={{ fontSize: 12, letterSpacing: '.1em', color: '#8D9AAF' }}>UPSIDE</span><span style={{ fontSize: 12, color: '#6B7688', fontVariantNumeric: 'tabular-nums' }}>{up.roas.toFixed(2)}x</span></div><div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.02em', marginTop: 6, fontVariantNumeric: 'tabular-nums' }}>{money(up.gross)}</div></div>
+                </div>
+                <details>
+                  <summary style={{ cursor: 'pointer', listStyle: 'none', fontSize: 13, fontWeight: 600, color: '#5D8BFF' }}>How this is calculated</summary>
+                  <div style={{ marginTop: 14, fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: 11.5, lineHeight: 1.9, color: '#6B7688' }}>
+                    paid_registrations = media_budget / cost_per_registration<br />
+                    registrations = paid_registrations + organic_registrations<br />
+                    attendees = registrations &times; attendance_rate<br />
+                    core_buyers = attendees &times; attendee_conversion<br />
+                    replay_buyers = core_buyers &times; replay_uplift<br />
+                    vip_revenue = registrations &times; vip_take &times; vip_price<br />
+                    bump_revenue = buyers &times; bump_take &times; bump_price<br />
+                    upsell_revenue = buyers &times; upsell_take &times; upsell_price<br />
+                    contribution = gross_revenue &minus; media_spend &minus; variable_costs<br />
+                    conservative = target &times; 0.78 &middot; upside = target &times; 1.18
+                  </div>
+                </details>
+                <div style={{ marginTop: 18, fontSize: 12, lineHeight: 1.55, color: '#6B7688' }}>Forecasts are estimates based on the information and assumptions you provided. They are not guarantees of revenue, profitability, advertising performance, or business results.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="container" style={{ maxWidth: 1180, padding: '0 32px 56px', display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 48, alignItems: 'start' }}>
             <div>
               {!booked ? (
                 <div className="card" style={{ overflow: 'hidden' }}>
@@ -276,7 +364,7 @@ export default function ForecastWizard() {
                 <div className="eyebrow" style={{ marginBottom: 24 }}>WHAT HAPPENS ON THE CALL</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'rgba(255,255,255,.09)', border: '1px solid rgba(255,255,255,.09)', borderRadius: 10, overflow: 'hidden' }}>
                   {[
-                    'Validate the inputs and assumptions you entered.',
+                    'Validate the inputs and assumptions behind the number above.',
                     'Map the economics from registration through backend monetization.',
                     'Identify the highest-leverage constraint in the model.',
                     'Decide whether to build, optimize, or wait.',
@@ -348,6 +436,20 @@ export default function ForecastWizard() {
 
           {step === 1 && (
             <div style={{ padding: '36px 36px 32px' }}>
+              <div style={{ marginBottom: 32, paddingBottom: 32, borderBottom: '1px solid rgba(255,255,255,.09)' }}>
+                <h2 style={{ margin: '0 0 8px', fontSize: 23, fontWeight: 700, letterSpacing: '-.02em' }}>Quick fit check</h2>
+                <p style={{ margin: '0 0 8px', fontSize: 14.5, lineHeight: 1.6, color: '#6B7688', maxWidth: '62ch' }}>Six questions, thirty seconds. This is what we look at before a call, in either direction.</p>
+                <div>
+                  {QUALIFICATION_QUESTIONS.map((q) => (
+                    <FitToggle
+                      key={q.key}
+                      label={q.label}
+                      value={qualification[q.key]}
+                      onChange={(v) => setQualification((s) => ({ ...s, [q.key]: v }))}
+                    />
+                  ))}
+                </div>
+              </div>
               <h2 style={{ margin: '0 0 8px', fontSize: 23, fontWeight: 700, letterSpacing: '-.02em' }}>Contact and attribution</h2>
               <p style={{ margin: '0 0 32px', fontSize: 14.5, lineHeight: 1.6, color: '#6B7688', maxWidth: '62ch' }}>So the forecast reaches the right person, and so we know which promise you saw before you got here.</p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
@@ -524,6 +626,7 @@ export default function ForecastWizard() {
               <h2 style={{ margin: '0 0 8px', fontSize: 23, fontWeight: 700, letterSpacing: '-.02em' }}>Review and submit</h2>
               <p style={{ margin: '0 0 28px', fontSize: 14.5, lineHeight: 1.6, color: '#6B7688', maxWidth: '62ch' }}>Every value is labelled by how it got here. Edit any section before generating the forecast.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
+                <ReviewRow title="Quick fit check" detail={`${fitAnswered} of ${fitTotal} answered · ${fitYes} of ${fitTotal} yes`} status={fitAnswered === fitTotal ? 'complete' : `${fitTotal - fitAnswered} unanswered`} onEdit={() => goStep(1)} />
                 <ReviewRow title="Contact and attribution" detail={`8 fields · ${contactReported} reported`} status={contactReported === 8 ? 'complete' : `${8 - contactReported} unknown`} onEdit={() => goStep(1)} />
                 <ReviewRow title="Business and offer" detail={`10 fields · ${businessReported} reported`} status={businessReported === 10 ? 'complete' : `${10 - businessReported} unknown`} onEdit={() => goStep(2)} />
                 <ReviewRow title="Current funnel baseline" detail={`15 fields · ${baselineReported} reported`} status={baselineReported === 15 ? 'complete' : `${15 - baselineReported} unknown`} onEdit={() => goStep(3)} />
