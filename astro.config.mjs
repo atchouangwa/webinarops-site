@@ -5,6 +5,10 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   site: 'https://www.webinarops.io',
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
   integrations: [react()],
 });
