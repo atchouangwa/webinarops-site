@@ -284,7 +284,71 @@ input, select, textarea, button { font-family: inherit; }
 .field select:focus { border-color: var(--blue); }
 .field input::placeholder { color: var(--text-6); }
 
+/* ---------- responsive ---------- */
+
+/*
+ * Most layout on this site is authored as inline grid-template-columns
+ * (desktop ratios like "200px 1fr 180px" or "repeat(6,1fr)" vary per
+ * section). Rather than rewrite every one, sections that should collapse
+ * to a single column on mobile carry class="stack-mobile" alongside their
+ * inline style. Inline styles normally beat external rules, but a media
+ * query rule marked !important still wins - so this one class handles
+ * every grid in the site without needing a bespoke breakpoint per section.
+ */
+@media (max-width: 880px) {
+  .stack-mobile {
+    grid-template-columns: 1fr !important;
+  }
+  .stack-mobile > * {
+    border-right: none !important;
+    border-left: none !important;
+  }
+  /* Card grids (4+ short items) read better as 2 columns down to phone
+     width, then collapse fully below 520px. */
+  .grid-2-mobile { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (max-width: 520px) {
+  .grid-2-mobile { grid-template-columns: 1fr !important; }
+}
+
+/* Shown only below the stack-mobile breakpoint - e.g. a column label that
+   would be redundant next to a sibling on desktop but is needed once a
+   table-like grid collapses to stacked rows. */
+.mobile-only { display: none; }
+@media (max-width: 880px) {
+  .mobile-only { display: block !important; }
+  .desktop-only { display: none !important; }
+}
+
 @media (max-width: 900px) {
   .container { padding: 0 20px; }
   .section--pad-xl, .section--pad-lg, .section--pad-md { padding-left: 20px; padding-right: 20px; }
+}
+
+.header-cta-short { display: none; }
+
+@media (max-width: 640px) {
+  .header-bar { gap: 16px !important; }
+  .header-nav { display: none !important; }
+  .header-cta { font-size: 13px !important; padding: 9px 14px !important; }
+  .header-cta-full { display: none; }
+  .header-cta-short { display: inline; }
+  .header-logo { height: 34px !important; }
+  .h1 { letter-spacing: -.02em; }
+}
+
+@media (max-width: 400px) {
+  .header-logo { height: 28px !important; }
+  .header-cta { padding: 8px 12px !important; }
+}
+
+/* Forecast wizard: each question remounts (keyed by index), so this
+   animation replays on every advance/back - the "typeform" feel. */
+@keyframes qEnter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.q-enter { animation: qEnter 260ms cubic-bezier(.23,1,.32,1); }
+@media (prefers-reduced-motion: reduce) {
+  .q-enter { animation: none; }
 }

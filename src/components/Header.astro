@@ -2,17 +2,20 @@
 const nav = [{ href: '/process', label: 'The Process' }];
 ---
 <header style="position:sticky;top:0;z-index:50;background:rgba(0,0,0,.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.07)">
-  <div class="container" style="height:72px;display:flex;align-items:center;gap:40px">
+  <div class="container header-bar" style="height:72px;display:flex;align-items:center;gap:40px">
     <a href="/" style="display:flex;align-items:center;flex:none">
-      <img src="/assets/logo-primary-dark.png" alt="WebinarOps" style="height:48px;width:auto;display:block" />
+      <img src="/assets/logo-primary-dark.png" alt="WebinarOps" class="header-logo" style="height:48px;width:auto;display:block" />
     </a>
-    <nav style="display:flex;gap:32px;align-items:center;margin-left:8px">
+    <nav class="header-nav" style="display:flex;gap:32px;align-items:center;margin-left:8px">
       {nav.map((item) => (
         <a href={item.href} class="nav-link" style="font-size:14px;font-weight:500;color:#A8B3C4">{item.label}</a>
       ))}
     </nav>
     <div style="flex:1"></div>
-    <a href="/forecast" class="btn btn-primary" style="font-size:14px;padding:11px 20px">Build My Webinar Forecast</a>
+    <a href="/forecast" class="btn btn-primary header-cta" style="font-size:14px;padding:11px 20px;white-space:nowrap">
+      <span class="header-cta-full">Build My Webinar Forecast</span>
+      <span class="header-cta-short">Get Forecast</span>
+    </a>
   </div>
 </header>
 

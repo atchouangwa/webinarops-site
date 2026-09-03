@@ -2,65 +2,21 @@
 // wizard (src/components/ForecastWizard.tsx) and the email endpoint
 // (src/pages/api/submit-forecast.ts) so the numbers a lead sees always
 // match the numbers that land in the notification email.
+//
+// The form asks only what it needs to (a) produce a real forecast number
+// and (b) let WebinarOps triage fit before a call - not a full intake.
+// Deeper business/funnel/economics detail is gathered live, on the call.
 
 export interface ContactFields {
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
   company: string;
-  website: string;
-  countryTz: string;
-  role: string;
 }
 
-export interface BusinessFields {
-  niche: string;
-  whoBuys: string;
-  offerName: string;
-  offerFormat: string;
-  price: string;
-  cashCollectedAtPurchase: string;
-  refundPolicy: string;
-  monthlyRevenue: string;
-  fulfillmentCapacity: string;
-  customersToDate: string;
-}
-
-export interface BaselineFields {
-  webinarHistory: string;
-  frequency: string;
-  trafficSources: string;
-  monthlyAdSpend: string;
-  visitors: string;
-  totalRegistrations: string;
-  paidOrganicMix: string;
-  vipPrice: string;
-  vipTakeRate: string;
-  attendeesLive: string;
-  totalPurchasers: string;
-  replayViewsSales: string;
-  checkoutStartsCompleted: string;
-  callShowClose: string;
-  refundChargebackRate: string;
-}
-
-export interface EconomicsFields {
-  grossRevenue: string;
-  cashCollected: string;
-  fulfillmentCostPerCustomer: string;
-  salesCommissions: string;
-  processingFees: string;
-  otherCosts: string;
-  bumpPriceTake: string;
-  upsellPriceTake: string;
-  downsellPriceTake: string;
-  highTicketPrice: string;
-  ascensionBookingClose: string;
-  continuityRevenue: string;
-  retentionChurn: string;
-  ltv: string;
-}
+export const emptyContact: ContactFields = {
+  firstName: '', lastName: '', email: '', company: '',
+};
 
 export interface ScenarioFields {
   budget: number;
@@ -77,6 +33,17 @@ export interface ScenarioFields {
   upPrice: number;
   replay: number;
 }
+
+/**
+ * Defaults for every scenario input. Only the ones listed in
+ * CORE_SCENARIO_QUESTIONS are actually asked in the wizard - the rest
+ * (VIP/bump/upsell take rates and prices) are common-case assumptions
+ * that stay fixed rather than adding seven more screens to the flow.
+ */
+export const defaultScenario: ScenarioFields = {
+  budget: 30000, cpr: 14, organic: 400, show: 38, conv: 6, price: 1997,
+  vipTake: 8, vipPrice: 97, bumpTake: 22, bumpPrice: 197, upTake: 9, upPrice: 1500, replay: 35,
+};
 
 export type FitAnswer = '' | 'yes' | 'no' | 'unsure';
 
@@ -123,40 +90,10 @@ export interface AttributionInfo {
 export interface ForecastForm {
   qualification: QualificationFields;
   contact: ContactFields;
-  business: BusinessFields;
-  baseline: BaselineFields;
-  economics: EconomicsFields;
   scenario: ScenarioFields;
   attribution: AttributionInfo;
-  consentProcessing: boolean;
   consentEstimate: boolean;
 }
-
-export const emptyContact: ContactFields = {
-  firstName: '', lastName: '', email: '', phone: '', company: '', website: '', countryTz: '', role: '',
-};
-
-export const emptyBusiness: BusinessFields = {
-  niche: '', whoBuys: '', offerName: '', offerFormat: '', price: '', cashCollectedAtPurchase: '',
-  refundPolicy: '', monthlyRevenue: '', fulfillmentCapacity: '', customersToDate: '',
-};
-
-export const emptyBaseline: BaselineFields = {
-  webinarHistory: '', frequency: '', trafficSources: '', monthlyAdSpend: '', visitors: '',
-  totalRegistrations: '', paidOrganicMix: '', vipPrice: '', vipTakeRate: '', attendeesLive: '',
-  totalPurchasers: '', replayViewsSales: '', checkoutStartsCompleted: '', callShowClose: '', refundChargebackRate: '',
-};
-
-export const emptyEconomics: EconomicsFields = {
-  grossRevenue: '', cashCollected: '', fulfillmentCostPerCustomer: '', salesCommissions: '', processingFees: '',
-  otherCosts: '', bumpPriceTake: '', upsellPriceTake: '', downsellPriceTake: '', highTicketPrice: '',
-  ascensionBookingClose: '', continuityRevenue: '', retentionChurn: '', ltv: '',
-};
-
-export const defaultScenario: ScenarioFields = {
-  budget: 30000, cpr: 14, organic: 400, show: 38, conv: 6, price: 1997,
-  vipTake: 8, vipPrice: 97, bumpTake: 22, bumpPrice: 197, upTake: 9, upPrice: 1500, replay: 35,
-};
 
 export interface CalcResult {
   regs: number;
@@ -204,3 +141,38 @@ export function money(v: number): string {
 export function fmt(v: number): string {
   return Math.round(v).toLocaleString('en-US');
 }
+
+// ---------- the question flow ----------
+// One entry = one full-screen question in ForecastWizard. Order here is
+// the order they're asked in.
+
+export type Question =
+  | { kind: 'text' | 'email'; id: keyof ContactFields; label: string; placeholder: string; required?: boolean }
+  | { kind: 'fit'; id: keyof QualificationFields; label: string }
+  | { kind: 'number'; id: keyof ScenarioFields; label: string; help: string; prefix?: string; suffix?: string };
+
+export const CONTACT_QUESTIONS: Question[] = [
+  { kind: 'text', id: 'firstName', label: 'First, what’s your first name?', placeholder: 'Alex', required: true },
+  { kind: 'text', id: 'lastName', label: 'And your last name?', placeholder: 'Mercer', required: true },
+  { kind: 'email', id: 'email', label: 'What’s the best email to send this to?', placeholder: 'alex@company.com', required: true },
+  { kind: 'text', id: 'company', label: 'Company or brand? (optional)', placeholder: 'Company' },
+];
+
+/** The 7 scenario inputs actually asked - the rest stay at defaultScenario. */
+export const CORE_SCENARIO_QUESTIONS: Question[] = [
+  { kind: 'number', id: 'budget', label: 'What’s your monthly media budget?', help: 'What you can put behind ads each month.', prefix: '$' },
+  { kind: 'number', id: 'cpr', label: 'Expected cost per registration?', help: 'Roughly what a registrant costs you today, or your best guess.', prefix: '$' },
+  { kind: 'number', id: 'organic', label: 'Organic registrations per month?', help: 'Registrants you get without paid spend. Enter 0 if none.' },
+  { kind: 'number', id: 'show', label: 'What share of registrants attend live?', help: 'Your attendance / show-up rate.', suffix: '%' },
+  { kind: 'number', id: 'conv', label: 'What share of attendees buy?', help: 'Your live conversion rate on the core offer.', suffix: '%' },
+  { kind: 'number', id: 'price', label: 'What’s the price of your core offer?', help: 'Full price, before any bumps or upsells.', prefix: '$' },
+  { kind: 'number', id: 'replay', label: 'How much do replay buyers add?', help: 'Replay purchases as a percentage on top of live buyers.', suffix: '%' },
+];
+
+export const FIT_QUESTIONS: Question[] = QUALIFICATION_QUESTIONS.map((q) => ({
+  kind: 'fit',
+  id: q.key,
+  label: q.label,
+}));
+
+export const ALL_QUESTIONS: Question[] = [...CONTACT_QUESTIONS, ...FIT_QUESTIONS, ...CORE_SCENARIO_QUESTIONS];

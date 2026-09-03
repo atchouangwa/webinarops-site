@@ -88,22 +88,23 @@ const forecastSteps = [
 const faqs = [
   { q: 'What does WebinarOps actually do?', a: 'We build, launch, operate, and improve the acquisition and monetization system around a webinar: offer strategy, funnel architecture, paid acquisition, creative, email and SMS, sales infrastructure, attribution, reporting, and weekly optimization. Those are components of the engine, not products sold separately.' },
   { q: 'Why webinar first instead of a full funnel ecosystem?', a: 'Because a second mechanism divides the attention and the budget of the first one before the first one has been measured. Extracting the value already sitting inside the webinar is faster, cheaper, and produces the data that tells you whether the second mechanism is even the right one.' },
+  { q: 'What does this cost?', a: 'There is no fixed package price, because the right investment depends on what your offer economics can support. We price against your model, not a rate card. The forecast is what surfaces that number, and the review call is where we settle it.' },
   { q: 'Do I need an existing offer?', a: 'Yes. This is the requirement with no exceptions. We build the acquisition system around your offer; we do not create the offer or the expertise behind it.' },
+  { q: 'We have tried webinars before and they underperformed. Is that a problem?', a: 'It is usually the reason to talk, not a disqualifier. Most underperformance traces to one or two unmeasured stages rather than the mechanism itself. The forecast is how we find out which, before either of us commits more to it.' },
   { q: 'Is the forecast a guarantee?', a: 'No. It is a model built from the numbers and assumptions you enter. Change an assumption and the output changes. Its value is that it makes the assumptions visible and arguable before you spend against them.' },
   { q: 'What if I do not have complete webinar data?', a: 'Mark it unknown. Unknown values stay unknown rather than being quietly treated as zero, and the outputs that depend on them are shown as unavailable. Where you have raw counts but not rates, enter the counts and the model derives the rate and shows the formula.' },
   { q: 'Does the client cover advertising spend?', a: 'Yes. Advertising spend is paid separately and directly by you to the advertising platforms. It never passes through WebinarOps. Some third-party software may also carry its own platform fees.' },
   { q: 'Can you work with our existing team?', a: 'Usually yes. We take ownership of the acquisition and monetization system while your team keeps delivery, subject-matter expertise, and the brand. Where a sales team already exists, we coordinate with it rather than replacing it.' },
-  { q: 'Where are your case studies?', a: 'Not published. We do not publish a client, a logo, a testimonial, or a number without written approval and verified data, and we are not willing to fill the gap with numbers we cannot attribute. What we can show you is the operating standard and the model.' },
 ];
 ---
 <Layout title="WebinarOps — Webinar-First Growth for Info Businesses" ogImage="home.png">
 <main>
 
   <section class="section" style="position:relative;overflow:hidden">
-    <div style="position:absolute;inset:0;background-image:url(/assets/bg-signal-wave.png);background-size:cover;background-position:center right;opacity:.5"></div>
+    <div style="position:absolute;inset:0;background-image:url(/assets/bg-signal-wave.webp);background-size:cover;background-position:center right;opacity:.5"></div>
     <div style="position:absolute;inset:0;background:linear-gradient(90deg,#000 0%,rgba(0,0,0,.86) 45%,rgba(0,0,0,.35) 100%)"></div>
     <div class="container" style="position:relative;padding:104px 32px 88px">
-      <div style="display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:56px;align-items:center">
+      <div class="stack-mobile" style="display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:56px;align-items:center">
         <div>
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px">
             <span style="width:6px;height:6px;border-radius:50%;background:#2F6BFF;animation:woPulse 2.4s ease-in-out infinite"></span>
@@ -118,7 +119,7 @@ const faqs = [
           <div style="margin-top:30px;font-size:12px;font-weight:600;letter-spacing:.1em;color:#5A6474">FORECASTING &middot; ACQUISITION &middot; FUNNEL BUILD &middot; ATTRIBUTION &middot; OPTIMIZATION &middot; MONETIZATION</div>
         </div>
         <div>
-          <div class="dash-frame"><img src="/assets/dash-portfolio.png" alt="WebinarOps Analytics OS portfolio view, shown with fictional demonstration data" /></div>
+          <div class="dash-frame"><img src="/assets/dash-portfolio.webp" alt="WebinarOps Analytics OS portfolio view, shown with fictional demonstration data" /></div>
           <div class="dash-caption" style="display:flex;flex-wrap:wrap;gap:14px"><span>Analytics OS &middot; portfolio view</span><span style="color:#5A6474">Demonstration data</span></div>
         </div>
       </div>
@@ -144,7 +145,7 @@ const faqs = [
       <div class="eyebrow">THE MECHANISM</div>
       <h2 class="h2-md" style="max-width:24ch">One mechanism. Multiple revenue events.</h2>
       <p class="lede">Six stages, each with its own economics. Most teams instrument two of them and guess at the rest.</p>
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid rgba(255,255,255,.09);border-radius:10px;overflow:hidden">
+      <div class="stack-mobile" style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid rgba(255,255,255,.09);border-radius:10px;overflow:hidden">
         {mechanism.map((m, i) => (
           <div style={`padding:26px 20px;background:#07090E;${i < mechanism.length - 1 ? 'border-right:1px solid rgba(255,255,255,.09)' : ''}`}>
             <div style={`font-size:11px;font-weight:700;letter-spacing:.14em;margin-bottom:14px;color:${m.accent ? '#4AC7FF' : '#2F6BFF'}`}>{m.n}</div>
@@ -166,7 +167,7 @@ const faqs = [
       <div class="eyebrow">THE PROBLEM</div>
       <h2 class="h2-lg" style="max-width:26ch">Mechanism Hopping Resets the Learning Curve.</h2>
       <p class="lede" style="max-width:66ch">When a webinar underperforms, most teams add another funnel before learning why. Budget, attention, ownership, and data split across mechanisms, and none of them becomes predictable enough to scale. The argument here is sequencing, not ideology: finish reading the first mechanism before you fund a second. We earn the right to add complexity.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div class="stack-mobile" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
         <div class="card" style="padding:32px">
           <div style="font-size:11px;font-weight:600;letter-spacing:.18em;color:#FF6262;margin-bottom:20px">ADDING COMPLEXITY</div>
           <div style="display:flex;flex-direction:column;gap:16px">
@@ -193,16 +194,16 @@ const faqs = [
       <div class="eyebrow">THE COMPARISON</div>
       <h2 class="h2-lg" style="margin-bottom:48px;max-width:24ch">Multiple Vendors Own Deliverables. WebinarOps Owns the Economics.</h2>
       <div style="border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden">
-        <div style="display:grid;grid-template-columns:1.1fr 1fr 1fr;background:#07090E;border-bottom:1px solid rgba(255,255,255,.09)">
+        <div class="desktop-only" style="display:grid;grid-template-columns:1.1fr 1fr 1fr;background:#07090E;border-bottom:1px solid rgba(255,255,255,.09)">
           <div style="padding:18px 24px;font-size:11px;font-weight:600;letter-spacing:.18em;color:#6B7688">VARIABLE</div>
           <div style="padding:18px 24px;font-size:11px;font-weight:600;letter-spacing:.18em;color:#6B7688;border-left:1px solid rgba(255,255,255,.09)">TRADITIONAL VENDOR STACK</div>
           <div style="padding:18px 24px;font-size:11px;font-weight:600;letter-spacing:.18em;color:#5D8BFF;border-left:1px solid rgba(255,255,255,.09)">WEBINAROPS</div>
         </div>
         {comparisonRows.map((r, i) => (
-          <div style={`display:grid;grid-template-columns:1.1fr 1fr 1fr;${i < comparisonRows.length - 1 ? 'border-bottom:1px solid rgba(255,255,255,.07)' : ''}`}>
+          <div class="stack-mobile" style={`display:grid;grid-template-columns:1.1fr 1fr 1fr;${i < comparisonRows.length - 1 ? 'border-bottom:1px solid rgba(255,255,255,.07)' : ''}`}>
             <div style="padding:20px 24px;font-size:15px;font-weight:600">{r.variable}</div>
-            <div style="padding:20px 24px;font-size:14px;line-height:1.5;color:#8D9AAF;border-left:1px solid rgba(255,255,255,.07)">{r.them}</div>
-            <div style="padding:20px 24px;font-size:14px;line-height:1.5;color:#DCE5F3;border-left:1px solid rgba(255,255,255,.07);background:rgba(47,107,255,.04)">{r.us}</div>
+            <div style="padding:20px 24px;font-size:14px;line-height:1.5;color:#8D9AAF;border-left:1px solid rgba(255,255,255,.07)"><span class="mobile-only" style="font-size:11px;font-weight:600;letter-spacing:.1em;color:#5A6474;margin-bottom:4px">TRADITIONAL VENDOR STACK</span>{r.them}</div>
+            <div style="padding:20px 24px;font-size:14px;line-height:1.5;color:#DCE5F3;border-left:1px solid rgba(255,255,255,.07);background:rgba(47,107,255,.04)"><span class="mobile-only" style="font-size:11px;font-weight:600;letter-spacing:.1em;color:#5D8BFF;margin-bottom:4px">WEBINAROPS</span>{r.us}</div>
           </div>
         ))}
       </div>
@@ -216,7 +217,7 @@ const faqs = [
       <p class="lede">Five layers sit inside one webinar. A funnel that monetizes only the first is not underperforming, it is unfinished. Opening the others raises what every registrant and every run is worth, not just one conversion rate.</p>
       <div style="display:flex;flex-direction:column;gap:12px">
         {layers.map((l) => (
-          <div style={`display:grid;grid-template-columns:200px 1fr 180px;gap:0;border-radius:10px;overflow:hidden;${l.accent ? 'border:1px solid rgba(74,199,255,.28);background:linear-gradient(90deg,rgba(74,199,255,.06),rgba(74,199,255,0))' : 'border:1px solid rgba(255,255,255,.09);background:#05070B'}`}>
+          <div class="stack-mobile" style={`display:grid;grid-template-columns:200px 1fr 180px;gap:0;border-radius:10px;overflow:hidden;${l.accent ? 'border:1px solid rgba(74,199,255,.28);background:linear-gradient(90deg,rgba(74,199,255,.06),rgba(74,199,255,0))' : 'border:1px solid rgba(255,255,255,.09);background:#05070B'}`}>
             <div style={`padding:24px;display:flex;flex-direction:column;gap:8px;border-right:1px solid ${l.accent ? 'rgba(74,199,255,.2)' : 'rgba(255,255,255,.09)'}`}>
               <span style={`font-size:11px;font-weight:700;letter-spacing:.14em;color:${l.accent ? '#4AC7FF' : '#2F6BFF'}`}>LAYER {l.n}</span>
               <span style="font-size:17px;font-weight:700;letter-spacing:-.01em">{l.t}</span>
@@ -229,23 +230,23 @@ const faqs = [
           </div>
         ))}
       </div>
-      <div style="margin-top:56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center">
+      <div class="stack-mobile" style="margin-top:56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center">
         <div>
           <h3 style="margin:0 0 14px;font-size:22px;font-weight:700;letter-spacing:-.02em">Layer five, in practice.</h3>
           <p style="margin:0;font-size:15.5px;line-height:1.6;color:#A8B3C4">Every campaign is traced forward into registrations, buyers, and attributed revenue, so a budget decision is argued from the downstream number rather than from click cost. Values shown are demonstration data.</p>
         </div>
-        <div class="dash-frame"><img src="/assets/dash-acquisition.png" alt="Acquisition intelligence view connecting campaigns to registrations, buyers and revenue, shown with fictional demonstration data" /></div>
+        <div class="dash-frame"><img src="/assets/dash-acquisition.webp" alt="Acquisition intelligence view connecting campaigns to registrations, buyers and revenue, shown with fictional demonstration data" /></div>
       </div>
     </div>
   </section>
 
   <section class="section section--alt" style="position:relative;overflow:hidden">
-    <div style="position:absolute;inset:0;background-image:url(/assets/bg-pulse-rings.png);background-size:cover;background-position:center;opacity:.55"></div>
+    <div style="position:absolute;inset:0;background-image:url(/assets/bg-pulse-rings.webp);background-size:cover;background-position:center;opacity:.55"></div>
     <div class="container section--pad-lg" style="position:relative">
       <div class="eyebrow">THE LOOP</div>
       <h2 class="h2-lg" style="max-width:24ch">Every webinar should make the next one smarter.</h2>
       <p class="lede" style="max-width:60ch">Four steps, repeated. The value is not in any single run - it is in the fact that nothing is thrown away between runs.</p>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <div class="grid-2-mobile" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
         {loop.map((s) => (
           <div style={`border-radius:12px;padding:28px;background:rgba(5,7,11,.72);border:1px solid ${s.accent ? 'rgba(74,199,255,.3)' : 'rgba(255,255,255,.1)'}`}>
             <div style={`font-size:38px;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:20px;color:${s.accent ? '#4AC7FF' : '#2F6BFF'}`}>{s.t}</div>
@@ -262,7 +263,7 @@ const faqs = [
       <div class="eyebrow">WHAT WE OPERATE</div>
       <h2 class="h2-lg" style="max-width:22ch">Eight stages. One accountable team.</h2>
       <p class="lede" style="max-width:62ch">Expansion is the last stage, not the first. Nothing here is sold separately, because none of it works separately.</p>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden">
+      <div class="grid-2-mobile" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden">
         {stages.map((s) => (
           <div style={s.accent ? 'background:linear-gradient(180deg,rgba(74,199,255,.07),#05070B);padding:28px 24px' : 'background:#05070B;padding:28px 24px'}>
             <div style={`font-size:11px;font-weight:700;letter-spacing:.14em;margin-bottom:16px;color:${s.accent ? '#4AC7FF' : '#2F6BFF'}`}>{s.n}</div>
@@ -276,7 +277,7 @@ const faqs = [
 
   <section class="section section--alt">
     <div class="container section--pad-lg">
-      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:56px;align-items:center">
+      <div class="stack-mobile" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:56px;align-items:center">
         <div>
           <div class="eyebrow">WEBINAROPS ANALYTICS OS</div>
           <h2 class="h2-md">See What Happened. Know What to Change Next.</h2>
@@ -288,7 +289,7 @@ const faqs = [
           </div>
         </div>
         <div>
-          <div class="dash-frame"><img src="/assets/dash-today.png" alt="WebinarOps Analytics OS daily operating view, shown with fictional demonstration data" /></div>
+          <div class="dash-frame"><img src="/assets/dash-today.webp" alt="WebinarOps Analytics OS daily operating view, shown with fictional demonstration data" /></div>
           <div class="dash-caption">Interface shown with fictional demonstration data. No displayed figure represents a client result or expected outcome.</div>
         </div>
       </div>
@@ -299,7 +300,7 @@ const faqs = [
     <div class="container section--pad-lg">
       <div class="eyebrow">QUALIFICATION</div>
       <h2 class="h2-lg" style="margin-bottom:48px;max-width:22ch">Built for Businesses Ready to Operate the Webinar Repeatedly.</h2>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div class="stack-mobile" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
         <div style="border:1px solid rgba(39,209,127,.26);border-radius:12px;padding:32px;background:linear-gradient(180deg,rgba(39,209,127,.05),rgba(39,209,127,0))">
           <div style="font-size:11px;font-weight:600;letter-spacing:.18em;color:#27D17F;margin-bottom:24px">STRONG FIT</div>
           <div style="display:flex;flex-direction:column;gap:14px">
@@ -329,7 +330,7 @@ const faqs = [
       <div class="eyebrow">THE FORECAST</div>
       <h2 class="h2-lg" style="max-width:26ch">Model the economics before you scale the spend.</h2>
       <p class="lede">Six steps, roughly nine minutes. You enter what you know, mark what you do not, and the model shows the range your funnel currently supports - along with the stage that is capping it.</p>
-      <div style="display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:start">
+      <div class="stack-mobile" style="display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:start">
         <div style="display:flex;flex-direction:column;gap:14px">
           {forecastSteps.map((s, i) => (
             <div style="display:flex;gap:16px;align-items:flex-start">
@@ -366,7 +367,7 @@ const faqs = [
   </section>
 
   <section class="section">
-    <div class="container section--pad-lg" style="display:grid;grid-template-columns:340px 1fr;gap:64px;align-items:start">
+    <div class="container section--pad-lg stack-mobile" style="display:grid;grid-template-columns:340px 1fr;gap:64px;align-items:start">
       <div>
         <div class="eyebrow">QUESTIONS</div>
         <h2 class="h2-md" style="margin:0">Before you start the forecast</h2>
@@ -383,7 +384,7 @@ const faqs = [
   </section>
 
   <section style="position:relative;overflow:hidden">
-    <div style="position:absolute;inset:0;background-image:url(/assets/bg-signal-wave.png);background-size:cover;background-position:center;opacity:.45"></div>
+    <div style="position:absolute;inset:0;background-image:url(/assets/bg-signal-wave.webp);background-size:cover;background-position:center;opacity:.45"></div>
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.5),#000)"></div>
     <div class="container section--pad-xl" style="position:relative;text-align:center">
       <div class="eyebrow" style="margin-bottom:22px">MODEL BEFORE YOU SCALE</div>

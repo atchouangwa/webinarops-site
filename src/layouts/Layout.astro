@@ -8,16 +8,21 @@ interface Props {
   description?: string;
   /** Path under public/og/, e.g. "home.png". Defaults to the home image. */
   ogImage?: string;
+  /** Only the forecast page uses the Calendly widget - don't ship it elsewhere. */
+  includeCalendly?: boolean;
 }
 
 const {
   title,
   description = 'WebinarOps operates the complete webinar revenue system for education businesses, from acquisition and registration through replay, ascension, and retention.',
   ogImage = 'home.png',
+  includeCalendly = false,
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://www.webinarops.io');
 const ogImageUrl = new URL(`/og/${ogImage}`, Astro.site ?? 'https://www.webinarops.io');
+
+const GA_MEASUREMENT_ID = 'G-J2Z13Z1NYK';
 ---
 <!doctype html>
 <html lang="en">
@@ -27,6 +32,14 @@ const ogImageUrl = new URL(`/og/${ogImage}`, Astro.site ?? 'https://www.webinaro
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalUrl} />
+
+  <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} is:inline></script>
+  <script define:vars={{ GA_MEASUREMENT_ID }} is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', GA_MEASUREMENT_ID);
+  </script>
 
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
@@ -51,9 +64,13 @@ const ogImageUrl = new URL(`/og/${ogImage}`, Astro.site ?? 'https://www.webinaro
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
-  <script src="https://assets.calendly.com/assets/external/widget.js" async is:inline></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  {includeCalendly && (
+    <>
+      <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
+      <script src="https://assets.calendly.com/assets/external/widget.js" async is:inline></script>
+    </>
+  )}
 </head>
 <body>
   <div style="min-height:100vh;background:#000">

@@ -32,65 +32,13 @@ function section(title: string, rows: string): string {
 function buildEmailHtml(body: SubmitBody): string {
   const { form, calculated } = body;
   const c = form.contact;
-  const b = form.business;
-  const fl = form.baseline;
-  const e = form.economics;
   const s = form.scenario;
   const t = calculated.target;
 
   const contactRows =
     row('Name', `${c.firstName} ${c.lastName}`) +
     row('Email', c.email) +
-    row('Phone', c.phone) +
-    row('Company', c.company) +
-    row('Website', c.website) +
-    row('Country / TZ', c.countryTz) +
-    row('Role', c.role);
-
-  const businessRows =
-    row('Niche', b.niche) +
-    row('Who buys', b.whoBuys) +
-    row('Offer name', b.offerName) +
-    row('Offer format', b.offerFormat) +
-    row('Price', b.price) +
-    row('Cash collected at purchase', b.cashCollectedAtPurchase) +
-    row('Refund / guarantee', b.refundPolicy) +
-    row('Current monthly revenue', b.monthlyRevenue) +
-    row('Fulfillment capacity / mo', b.fulfillmentCapacity) +
-    row('Customers to date', b.customersToDate);
-
-  const baselineRows =
-    row('Webinar history', fl.webinarHistory) +
-    row('Frequency', fl.frequency) +
-    row('Traffic sources', fl.trafficSources) +
-    row('Monthly ad spend', fl.monthlyAdSpend) +
-    row('Visitors', fl.visitors) +
-    row('Total registrations', fl.totalRegistrations) +
-    row('Paid / organic mix', fl.paidOrganicMix) +
-    row('VIP price', fl.vipPrice) +
-    row('VIP take rate', fl.vipTakeRate) +
-    row('Attendees (live)', fl.attendeesLive) +
-    row('Total purchasers', fl.totalPurchasers) +
-    row('Replay views / sales', fl.replayViewsSales) +
-    row('Checkout starts / completed', fl.checkoutStartsCompleted) +
-    row('Call show / close rate', fl.callShowClose) +
-    row('Refund / chargeback rate', fl.refundChargebackRate);
-
-  const economicsRows =
-    row('Gross revenue in period', e.grossRevenue) +
-    row('Cash collected in period', e.cashCollected) +
-    row('Fulfillment cost / customer', e.fulfillmentCostPerCustomer) +
-    row('Sales commissions', e.salesCommissions) +
-    row('Processing fees', e.processingFees) +
-    row('Other campaign costs', e.otherCosts) +
-    row('Order bump price / take', e.bumpPriceTake) +
-    row('Upsell price / take', e.upsellPriceTake) +
-    row('Downsell price / take', e.downsellPriceTake) +
-    row('High-ticket price', e.highTicketPrice) +
-    row('Ascension booking / close', e.ascensionBookingClose) +
-    row('Continuity revenue / mo', e.continuityRevenue) +
-    row('Retention / churn', e.retentionChurn) +
-    row('LTV', e.ltv);
+    row('Company', c.company);
 
   const scenarioRows =
     row('Monthly media budget', money(s.budget)) +
@@ -100,9 +48,9 @@ function buildEmailHtml(body: SubmitBody): string {
     row('Attendee conversion', s.conv + '%') +
     row('Core offer price', money(s.price)) +
     row('Replay uplift', s.replay + '%') +
-    row('VIP take / price', `${s.vipTake}% / ${money(s.vipPrice)}`) +
-    row('Bump take / price', `${s.bumpTake}% / ${money(s.bumpPrice)}`) +
-    row('Upsell take / price', `${s.upTake}% / ${money(s.upPrice)}`);
+    row('VIP take / price (default)', `${s.vipTake}% / ${money(s.vipPrice)}`) +
+    row('Bump take / price (default)', `${s.bumpTake}% / ${money(s.bumpPrice)}`) +
+    row('Upsell take / price (default)', `${s.upTake}% / ${money(s.upPrice)}`);
 
   const modelRows =
     row('Modelled registrations', fmt(t.regs)) +
@@ -136,9 +84,6 @@ function buildEmailHtml(body: SubmitBody): string {
     ${section('Quick fit check', fitRows)}
     ${section('Modelled outcome (target scenario)', modelRows)}
     ${section('Contact', contactRows)}
-    ${section('Business and offer', businessRows)}
-    ${section('Funnel baseline', baselineRows)}
-    ${section('Unit economics', economicsRows)}
     ${section('Scenario assumptions', scenarioRows)}
     ${section('Attribution', attributionRows)}
   </div>`;
