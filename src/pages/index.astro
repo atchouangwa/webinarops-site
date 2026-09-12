@@ -1,5 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { calcScenario, defaultScenario, money } from '../lib/forecast';
+
+const exampleTarget = calcScenario(defaultScenario, 1);
+const exampleConservative = calcScenario(defaultScenario, 0.78);
+const exampleUpside = calcScenario(defaultScenario, 1.18);
 
 export const prerender = true;
 
@@ -81,7 +86,7 @@ const forecastSteps = [
   { t: 'Business and offer', d: 'What you sell, at what price, to whom, with what capacity.' },
   { t: 'Current funnel baseline', d: 'Raw counts where you have them, rates where you track them.' },
   { t: 'Unit economics', d: 'Cash collected, cost of delivery, and every monetization layer.' },
-  { t: 'Scenario and goals', d: 'Cadence, budget, targets, and your maximum acceptable acquisition cost.' },
+  { t: 'Scenario and goals', d: 'Ad budget, registrations, and conversion assumptions for one webinar.' },
   { t: 'Review and submit', d: 'Every value labelled reported, derived, estimated, or unknown.' },
 ];
 
@@ -329,7 +334,7 @@ const faqs = [
     <div class="container section--pad-lg">
       <div class="eyebrow">THE FORECAST</div>
       <h2 class="h2-lg" style="max-width:26ch">Model the economics before you scale the spend.</h2>
-      <p class="lede">Six steps, roughly nine minutes. You enter what you know, mark what you do not, and the model shows the range your funnel currently supports - along with the stage that is capping it.</p>
+      <p class="lede">Enter the ad budget and conversion assumptions for one webinar. See the modelled registrations, buyers, and gross revenue from that event, including its replay and follow-up sales.</p>
       <div class="stack-mobile" style="display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:start">
         <div style="display:flex;flex-direction:column;gap:14px">
           {forecastSteps.map((s, i) => (
@@ -346,18 +351,18 @@ const faqs = [
             <span class="badge badge--amber">ILLUSTRATIVE ONLY</span>
           </div>
           <div style="padding:26px 22px">
-            <div style="font-size:12px;font-weight:600;letter-spacing:.14em;color:#6B7688;margin-bottom:8px">MODELLED MONTHLY GROSS</div>
-            <div style="font-size:40px;font-weight:800;letter-spacing:-.035em;line-height:1;margin-bottom:6px;font-variant-numeric:tabular-nums">$268,400</div>
-            <div style="font-size:13px;color:#8D9AAF;margin-bottom:26px">Target scenario · 2 runs · $30,000 media</div>
+            <div style="font-size:12px;font-weight:600;letter-spacing:.14em;color:#6B7688;margin-bottom:8px">MODELLED GROSS REVENUE PER WEBINAR</div>
+            <div style="font-size:40px;font-weight:800;letter-spacing:-.035em;line-height:1;margin-bottom:6px;font-variant-numeric:tabular-nums">{money(exampleTarget.gross)}</div>
+            <div style="font-size:13px;color:#8D9AAF;margin-bottom:26px">Target scenario · 1 webinar · {money(defaultScenario.budget)} ad spend</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.09);border-radius:8px;overflow:hidden;margin-bottom:22px">
-              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">CONSERVATIVE</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">$198,900</div></div>
-              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">UPSIDE</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">$331,700</div></div>
-              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">CASH-ON-CASH</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">8.94x</div></div>
-              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">BREAK-EVEN CPR</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">$125.16</div></div>
+              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">CONSERVATIVE</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">{money(exampleConservative.gross)}</div></div>
+              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">UPSIDE</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">{money(exampleUpside.gross)}</div></div>
+              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">MODELLED ROAS</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">{exampleTarget.roas.toFixed(2)}x</div></div>
+              <div style="background:#07090E;padding:16px 18px"><div style="font-size:11px;letter-spacing:.12em;color:#6B7688;margin-bottom:6px">REVENUE / REGISTRANT</div><div style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">${exampleTarget.rpr.toFixed(2)}</div></div>
             </div>
             <div style="border:1px solid rgba(243,185,68,.28);background:rgba(243,185,68,.05);border-radius:8px;padding:16px 18px;margin-bottom:20px">
-              <div style="font-size:11px;font-weight:600;letter-spacing:.14em;color:#F3B944;margin-bottom:8px">LARGEST MODELLED CONSTRAINT</div>
-              <div style="font-size:14.5px;line-height:1.5;color:#DCE5F3">Replay window. No deadline is set and the replay is mailed once, so the model cannot credit the second conversion window.</div>
+              <div style="font-size:11px;font-weight:600;letter-spacing:.14em;color:#F3B944;margin-bottom:8px">ILLUSTRATIVE ASSUMPTIONS</div>
+              <div style="font-size:14.5px;line-height:1.5;color:#DCE5F3">One webinar with {defaultScenario.show}% live attendance, {defaultScenario.conv}% attendee conversion, and {defaultScenario.replay}% additional replay buyers. Includes the calculator’s default VIP, bump, and upsell assumptions.</div>
             </div>
             <div style="font-size:12px;line-height:1.55;color:#6B7688">Forecasts are estimates based on the information and assumptions provided. They are not guarantees of revenue, profitability, advertising performance, or business results.</div>
           </div>

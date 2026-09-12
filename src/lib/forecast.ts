@@ -19,8 +19,10 @@ export const emptyContact: ContactFields = {
 };
 
 export interface ScenarioFields {
+  /** Total ad spend to promote one webinar. */
   budget: number;
   cpr: number;
+  /** Unpaid registrations for that same webinar. */
   organic: number;
   show: number;
   conv: number;
@@ -112,7 +114,10 @@ export interface CalcResult {
 
 const n = (x: unknown): number => Number(x) || 0;
 
-/** Mirrors Component.calc() from the original Claude Design mockup. */
+/** Models one webinar and its associated replay/follow-up sales.
+ * Budget and registrations refer to that event; no calendar or run multiplier applies.
+ * mult changes the attendance/conversion assumptions for the scenario, not the run count.
+ */
 export function calcScenario(f: ScenarioFields, mult: number): CalcResult {
   const paidRegs = n(f.cpr) > 0 ? n(f.budget) / n(f.cpr) : 0;
   const regs = paidRegs + n(f.organic);
@@ -160,13 +165,13 @@ export const CONTACT_QUESTIONS: Question[] = [
 
 /** The 7 scenario inputs actually asked - the rest stay at defaultScenario. */
 export const CORE_SCENARIO_QUESTIONS: Question[] = [
-  { kind: 'number', id: 'budget', label: 'What’s your monthly media budget?', help: 'What you can put behind ads each month.', prefix: '$' },
-  { kind: 'number', id: 'cpr', label: 'Expected cost per registration?', help: 'Roughly what a registrant costs you today, or your best guess.', prefix: '$' },
-  { kind: 'number', id: 'organic', label: 'Organic registrations per month?', help: 'Registrants you get without paid spend. Enter 0 if none.' },
+  { kind: 'number', id: 'budget', label: 'What’s your ad budget for this webinar?', help: 'Total ad spend to promote one webinar, across the full registration campaign.', prefix: '$' },
+  { kind: 'number', id: 'cpr', label: 'Expected cost per registration?', help: 'Expected ad cost per registrant for this webinar. Use your historical average or best estimate.', prefix: '$' },
+  { kind: 'number', id: 'organic', label: 'How many organic registrations for this webinar?', help: 'Registrants expected for this one webinar from email, social, referrals, or other unpaid sources. Enter 0 if none.' },
   { kind: 'number', id: 'show', label: 'What share of registrants attend live?', help: 'Your attendance / show-up rate.', suffix: '%' },
   { kind: 'number', id: 'conv', label: 'What share of attendees buy?', help: 'Your live conversion rate on the core offer.', suffix: '%' },
   { kind: 'number', id: 'price', label: 'What’s the price of your core offer?', help: 'Full price, before any bumps or upsells.', prefix: '$' },
-  { kind: 'number', id: 'replay', label: 'How much do replay buyers add?', help: 'Replay purchases as a percentage on top of live buyers.', suffix: '%' },
+  { kind: 'number', id: 'replay', label: 'How much do replay buyers add?', help: 'Purchases from this webinar’s replay and follow-up window, as a percentage on top of its live buyers.', suffix: '%' },
 ];
 
 export const FIT_QUESTIONS: Question[] = QUALIFICATION_QUESTIONS.map((q) => ({

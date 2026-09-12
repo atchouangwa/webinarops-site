@@ -47,9 +47,10 @@ function buildEmailHtml(body: SubmitBody): string {
     row('Company', c.company);
 
   const scenarioRows =
-    row('Monthly media budget', money(s.budget)) +
+    row('Forecast basis', 'One webinar, including its replay and follow-up sales') +
+    row('Ad budget for this webinar', money(s.budget)) +
     row('Expected cost per reg', money(s.cpr)) +
-    row('Organic registrations', String(s.organic)) +
+    row('Organic registrations for this webinar', String(s.organic)) +
     row('Attendance rate', s.show + '%') +
     row('Attendee conversion', s.conv + '%') +
     row('Core offer price', money(s.price)) +
@@ -62,7 +63,7 @@ function buildEmailHtml(body: SubmitBody): string {
     row('Modelled registrations', fmt(t.regs)) +
     row('Modelled attendees', fmt(t.attendees)) +
     row('Modelled buyers', fmt(t.buyers)) +
-    row('Modelled gross revenue (target)', money(t.gross)) +
+    row('Gross revenue per webinar (target)', money(t.gross)) +
     row('Conservative gross revenue', money(calculated.conservative.gross)) +
     row('Upside gross revenue', money(calculated.upside.gross)) +
     row('Target ROAS', t.roas.toFixed(2) + 'x') +
@@ -84,11 +85,11 @@ function buildEmailHtml(body: SubmitBody): string {
 
   return `
   <div style="font-family:-apple-system,Helvetica,Arial,sans-serif;color:#111;max-width:640px">
-    <h2 style="margin:0 0 4px">New webinar forecast submission</h2>
+    <h2 style="margin:0 0 4px">New per-webinar forecast submission</h2>
     <p style="margin:0 0 16px;color:#6B7688;font-size:13px">${escapeHtml(c.firstName)} ${escapeHtml(c.lastName)} &middot; ${escapeHtml(c.company || 'no company given')}</p>
     <div style="display:inline-block;padding:6px 12px;border-radius:6px;background:${fitColor};color:#fff;font-size:13px;font-weight:700;margin-bottom:8px">Fit check: ${yes} / ${total} yes</div>
     ${section('Quick fit check', fitRows)}
-    ${section('Modelled outcome (target scenario)', modelRows)}
+    ${section('One webinar — modelled outcome (target scenario)', modelRows)}
     ${section('Contact', contactRows)}
     ${section('Scenario assumptions', scenarioRows)}
     ${section('Attribution', attributionRows)}

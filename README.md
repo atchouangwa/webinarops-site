@@ -75,3 +75,11 @@ belongs to this project, and includes Production, then create a new deployment.
 - Legal footer links (Privacy Policy, Terms, Earnings Disclaimer) are still
   `#` placeholders, as they were in the mockup — no legal copy was provided
   to build real pages from.
+
+## Forecast scope
+
+All forecast inputs and outputs describe one webinar and its associated replay
+and follow-up sales. Ad budget is the total spend for that webinar’s registration
+campaign; organic registrations are for the same event. Conservative, target, and
+upside are alternative outcomes for that one event, not additional runs. The
+homepage illustration uses the same calculator and default assumptions.

@@ -186,10 +186,10 @@ export default function ForecastWizard() {
               <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.2em', color: '#27D17F' }}>FORECAST BUILT</span>
             </div>
             <h1 className="h1" style={{ maxWidth: '26ch', fontSize: 'clamp(30px,3.6vw,50px)', lineHeight: 1.06, letterSpacing: '-.03em' }}>
-              Here&rsquo;s Your Modelled Forecast.
+              Here&rsquo;s Your Forecast for One Webinar.
             </h1>
             <p style={{ margin: '26px 0 36px', maxWidth: '66ch', fontSize: 17, lineHeight: 1.6, color: '#A8B3C4' }}>
-              Built from the assumptions you entered, below. If you want a second pair of eyes on those assumptions and the constraint capping the model, book a 30-minute Webinar Forecast Review.
+              This models one webinar, including its replay and follow-up sales, using the assumptions you entered. If you want a second pair of eyes on those assumptions and the constraint capping the model, book a 30-minute Webinar Forecast Review.
             </p>
             <ForecastProgress booked={booked} />
           </div>
@@ -199,12 +199,13 @@ export default function ForecastWizard() {
           <div className="container" style={{ maxWidth: 1180, padding: '56px 32px' }}>
             <div style={{ border: '1px solid rgba(47,107,255,.28)', borderRadius: 12, overflow: 'hidden', background: 'linear-gradient(180deg,rgba(47,107,255,.06),rgba(47,107,255,0))' }}>
               <div style={{ padding: '14px 22px', borderBottom: '1px solid rgba(47,107,255,.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '.14em', color: '#5D8BFF' }}>YOUR MODELLED FORECAST · TARGET SCENARIO</span>
+                <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '.14em', color: '#5D8BFF' }}>ONE WEBINAR · TARGET SCENARIO</span>
                 <span className="badge badge--amber">ESTIMATE</span>
               </div>
               <div style={{ padding: '26px 22px' }}>
-                <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.14em', color: '#6B7688', marginBottom: 8 }}>MODELLED MONTHLY GROSS</div>
+                <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.14em', color: '#6B7688', marginBottom: 8 }}>MODELLED GROSS REVENUE PER WEBINAR</div>
                 <div style={{ fontSize: 40, fontWeight: 800, letterSpacing: '-.035em', lineHeight: 1, marginBottom: 22, fontVariantNumeric: 'tabular-nums' }}>{money(target.gross)}</div>
+                <p style={{ margin: '-8px 0 22px', fontSize: 13, lineHeight: 1.6, color: '#8D9AAF' }}>One webinar &middot; {money(scenario.budget)} ad spend &middot; Includes replay and follow-up sales</p>
                 <div className="grid-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1, background: 'rgba(255,255,255,.09)', border: '1px solid rgba(255,255,255,.09)', borderRadius: 8, overflow: 'hidden', marginBottom: 22 }}>
                   <div style={{ background: '#07090E', padding: '16px 18px' }}><div style={{ fontSize: 10.5, letterSpacing: '.12em', color: '#6B7688', marginBottom: 8 }}>REGISTRATIONS</div><div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.02em', fontVariantNumeric: 'tabular-nums' }}>{fmt(target.regs)}</div></div>
                   <div style={{ background: '#07090E', padding: '16px 18px' }}><div style={{ fontSize: 10.5, letterSpacing: '.12em', color: '#6B7688', marginBottom: 8 }}>ATTENDEES</div><div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.02em', fontVariantNumeric: 'tabular-nums' }}>{fmt(target.attendees)}</div></div>
@@ -336,7 +337,7 @@ export default function ForecastWizard() {
               <div className="eyebrow" style={{ marginBottom: 10 }}>LAST STEP</div>
               <h2 style={{ margin: '0 0 12px', fontSize: 'clamp(24px,3.4vw,32px)', fontWeight: 800, letterSpacing: '-.02em' }}>Ready to build it.</h2>
               <p style={{ margin: '0 0 28px', fontSize: 15.5, lineHeight: 1.6, color: '#8D9AAF' }}>
-                See your modelled forecast on the next screen and send your numbers to our team for review.
+                See the forecast for this one webinar on the next screen and send your numbers to our team for review.
               </p>
               <div style={{ padding: '16px 18px', border: '1px solid rgba(255,255,255,.1)', borderRadius: 10, marginBottom: 24 }}>
                 <label style={{ display: 'flex', gap: 12, alignItems: 'flex-start', cursor: 'pointer' }}>
