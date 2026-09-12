@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
+import { ForecastProgress, ForecastFaq } from './ForecastConfirmationDetails';
 import {
   type ForecastForm,
   type ScenarioFields,
@@ -190,15 +191,7 @@ export default function ForecastWizard() {
             <p style={{ margin: '26px 0 36px', maxWidth: '66ch', fontSize: 17, lineHeight: 1.6, color: '#A8B3C4' }}>
               Built from the assumptions you entered, below. If you want a second pair of eyes on those assumptions and the constraint capping the model, book a 30-minute Webinar Forecast Review.
             </p>
-            <div className="stack-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 1, background: 'rgba(255,255,255,.09)', border: '1px solid rgba(255,255,255,.09)', borderRadius: 10, overflow: 'hidden', maxWidth: 760 }}>
-              <div style={{ background: '#05070B', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ color: '#27D17F', fontSize: 14, fontWeight: 700 }}>&check;</span><span style={{ fontSize: 13.5, fontWeight: 600, color: '#DCE5F3' }}>Submission received</span></div>
-              <div style={{ background: '#05070B', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ color: '#27D17F', fontSize: 14, fontWeight: 700 }}>&check;</span><span style={{ fontSize: 13.5, fontWeight: 600, color: '#DCE5F3' }}>Forecast built</span></div>
-              {booked ? (
-                <div style={{ background: 'rgba(39,209,127,.1)', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ color: '#27D17F', fontSize: 14, fontWeight: 700 }}>&check;</span><span style={{ fontSize: 13.5, fontWeight: 700, color: '#fff' }}>Call booked</span></div>
-              ) : (
-                <div style={{ background: 'rgba(243,185,68,.08)', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ width: 7, height: 7, borderRadius: '50%', background: '#F3B944', flex: 'none' }} /><span style={{ fontSize: 13.5, fontWeight: 700, color: '#F3B944' }}>Call not booked yet</span></div>
-              )}
-            </div>
+            <ForecastProgress booked={booked} />
           </div>
         </section>
 
@@ -302,13 +295,7 @@ export default function ForecastWizard() {
                 ].map((t) => <div key={t} className="dot-item" style={{ paddingLeft: 18 }}>{t}</div>)}
               </div>
               <div className="eyebrow" style={{ marginBottom: 16 }}>QUESTIONS</div>
-              <div className="faq-list">
-                <details><summary>Is the forecast a guarantee?</summary><div className="faq-answer" style={{ fontSize: 13.5 }}>No. It is a model of the assumptions you entered, and its purpose is to make those assumptions arguable before spend.</div></details>
-                <details><summary>Who should attend?</summary><div className="faq-answer" style={{ fontSize: 13.5 }}>Whoever can approve budget and whoever owns the current funnel numbers. Two people is usually right.</div></details>
-                <details><summary>What if my data is incomplete?</summary><div className="faq-answer" style={{ fontSize: 13.5 }}>That is itself a finding, and often the first constraint. Bring what you have.</div></details>
-                <details><summary>Is this a fit if we have never run a webinar?</summary><div className="faq-answer" style={{ fontSize: 13.5 }}>Sometimes. The requirement is a validated offer with real customers, not prior webinar history.</div></details>
-                <details><summary>What happens after the review?</summary><div className="faq-answer" style={{ fontSize: 13.5 }}>Recommendations and next steps depend on what the forecast review surfaces. Nothing is committed on the call.</div></details>
-              </div>
+              <ForecastFaq />
             </div>
           </div>
         </section>
