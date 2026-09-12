@@ -349,7 +349,7 @@ export default function ForecastWizard() {
               <div className="eyebrow" style={{ marginBottom: 10 }}>LAST STEP</div>
               <h2 style={{ margin: '0 0 12px', fontSize: 'clamp(24px,3.4vw,32px)', fontWeight: 800, letterSpacing: '-.02em' }}>Ready to build it.</h2>
               <p style={{ margin: '0 0 28px', fontSize: 15.5, lineHeight: 1.6, color: '#8D9AAF' }}>
-                We&rsquo;ll model your numbers instantly on the next screen, and email a copy to {contact.email || 'you'}.
+                See your modelled forecast on the next screen and send your numbers to our team for review.
               </p>
               <div style={{ padding: '16px 18px', border: '1px solid rgba(255,255,255,.1)', borderRadius: 10, marginBottom: 24 }}>
                 <label style={{ display: 'flex', gap: 12, alignItems: 'flex-start', cursor: 'pointer' }}>
@@ -359,7 +359,7 @@ export default function ForecastWizard() {
               </div>
               {submitStatus === 'error' && (
                 <div style={{ marginBottom: 20, padding: '14px 16px', border: '1px solid rgba(255,98,98,.35)', background: 'rgba(255,98,98,.06)', borderRadius: 8, fontSize: 13.5, lineHeight: 1.5, color: '#FFB3B3' }}>
-                  {submitError || 'Something went wrong sending your forecast.'} Please try again, or email <a href="mailto:hello@webinarops.com">hello@webinarops.com</a> directly.
+                  {submitError || 'Something went wrong sending your forecast.'} Please try again, or email <a href="mailto:alo@webinarops.io">alo@webinarops.io</a> directly.
                 </div>
               )}
               <button type="button" onClick={handleSubmit} disabled={!canSubmit || submitStatus === 'submitting'} className="btn btn-primary" style={{ fontSize: 16, padding: '16px 32px', opacity: !canSubmit || submitStatus === 'submitting' ? 0.6 : 1, cursor: !canSubmit || submitStatus === 'submitting' ? 'not-allowed' : 'pointer' }}>

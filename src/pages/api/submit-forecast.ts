@@ -12,8 +12,15 @@ interface SubmitBody {
 
 function getEnv(key: string): string | undefined {
   // Prefer runtime secrets on Vercel; fall back to Astro's local environment.
-  return process.env[key] || (import.meta.env as Record<string, string | undefined>)[key];
+  return process.env[key]?.trim() || (import.meta.env as Record<string, string | undefined>)[key]?.trim();
 }
+
+// Allow deployment checks without sending an email or exposing secret values.
+// A successful check confirms configuration presence, not Resend delivery.
+export const HEAD: APIRoute = () => new Response(null, {
+  status: getEnv('RESEND_API_KEY') ? 204 : 503,
+  headers: { 'Cache-Control': 'no-store' },
+});
 
 function row(label: string, value: string): string {
   const v = value && value.trim() ? value : '—';

@@ -24,7 +24,7 @@ npm run dev
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `RESEND_API_KEY` | Yes, for the forecast email to send | Resend API key. Without it `/api/submit-forecast` returns a 500 and the wizard shows an inline error asking the lead to email `hello@webinarops.com` directly. |
+| `RESEND_API_KEY` | Yes, for the forecast email to send | Resend API key. Without it `/api/submit-forecast` returns a 500 and the wizard shows an inline error asking the lead to email `alo@webinarops.io` directly. |
 | `FORECAST_NOTIFY_TO` | No (defaults to `alo@webinarops.io`) | Who receives the notification email for each forecast submission. |
 | `FORECAST_NOTIFY_FROM` | No | Defaults to `WebinarOps Forecast <forecast@updates.webinarops.io>`. **Verify `updates.webinarops.io` in your Resend account** before sending. Any override must also use a verified sending domain. |
 
@@ -47,6 +47,12 @@ For the existing deployment, use the `webinarops` project in the
    to another inbox.
 4. Confirm `updates.webinarops.io` is verified in Resend, then redeploy to load
    the environment changes. Configure Preview separately if email testing is needed.
+
+After deployment, `HEAD /api/submit-forecast` returns `204` when the server can
+read a nonempty `RESEND_API_KEY`, or `503` when it cannot. This check sends no
+email, exposes no key, and does not validate the key or confirm domain verification.
+If it returns `503`, check that the variable is named exactly `RESEND_API_KEY`,
+belongs to this project, and includes Production, then create a new deployment.
 
 ## What's carried over from the mockup vs. changed for production
 
