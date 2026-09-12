@@ -97,3 +97,16 @@ Research references:
 - [FTC advertising guidance](https://www.ftc.gov/business-guidance/resources/advertising-faqs-guide-small-business)
 - [FTC privacy and security guidance](https://www.ftc.gov/business-guidance/privacy-security)
 - [Google Analytics terms](https://marketingplatform.google.com/about/analytics/terms/us/)
+
+## Forecast confirmation emails
+
+Each successful submission sends two separate Resend emails in one batch:
+- Team notification to `FORECAST_NOTIFY_TO` (default `alo@webinarops.io`), including qualification and attribution; replies go to the submitter.
+- Customer confirmation to the submitted email, including all three per-webinar scenarios, model inputs/defaults, disclaimer, and the existing Calendly review link; replies go to `alo@webinarops.io`.
+
+Both use `FORECAST_NOTIFY_FROM`. Customer confirmations exclude internal fit
+scores and attribution. The server recalculates totals from validated numeric
+inputs. A deterministic Resend idempotency key protects identical email batches
+from duplicate sends on retries within Resend’s 24-hour window. Success means
+both emails were accepted by Resend, not that inbox delivery has been confirmed.
+Existing submissions are not backfilled automatically.

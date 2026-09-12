@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
+import { createHash } from 'node:crypto';
 import type { CalcResult, ForecastForm } from '../../lib/forecast';
-import { money, fmt, fitScore, QUALIFICATION_QUESTIONS } from '../../lib/forecast';
+import { money, fmt, fitScore, calcScenario, defaultScenario, emptyQualification, QUALIFICATION_QUESTIONS } from '../../lib/forecast';
 
 export const prerender = false;
 
@@ -24,7 +25,7 @@ export const HEAD: APIRoute = () => new Response(null, {
 
 function row(label: string, value: string): string {
   const v = value && value.trim() ? value : '—';
-  return `<tr><td style="padding:4px 12px 4px 0;color:#6B7688;font-size:13px;white-space:nowrap;vertical-align:top">${label}</td><td style="padding:4px 0;font-size:13px;color:#111">${escapeHtml(v)}</td></tr>`;
+  return `<tr><td style="padding:4px 12px 4px 0;color:#6B7688;font-size:13px;vertical-align:top">${label}</td><td style="padding:4px 0;font-size:13px;color:#111">${escapeHtml(v)}</td></tr>`;
 }
 
 function escapeHtml(s: string): string {
@@ -100,6 +101,72 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+function buildCustomerEmail(body: SubmitBody) {
+  const { form, calculated } = body;
+  const s = form.scenario;
+  const t = calculated.target;
+  const bookingUrl = 'https://calendly.com/alo-webinarops/30min';
+  const metrics: [string, string][] = [
+    ['Ad spend for this webinar', money(s.budget)],
+    ['Registrations', fmt(t.regs)],
+    ['Live attendees', fmt(t.attendees)],
+    ['Buyers, including replay', fmt(t.buyers)],
+    ['Conservative gross revenue', money(calculated.conservative.gross)],
+    ['Target gross revenue', money(t.gross)],
+    ['Upside gross revenue', money(calculated.upside.gross)],
+    ['Target ROAS', s.budget > 0 ? `${t.roas.toFixed(2)}x` : 'Not applicable — no ad spend'],
+  ];
+  const assumptions: [string, string][] = [
+    ['Cost per registration', money(s.cpr)],
+    ['Organic registrations', fmt(s.organic)],
+    ['Live attendance rate', `${s.show}%`],
+    ['Attendee purchase rate', `${s.conv}%`],
+    ['Core offer price', money(s.price)],
+    ['Additional replay buyers', `${s.replay}% of live buyers`],
+    ['VIP take rate / price', `${s.vipTake}% / ${money(s.vipPrice)}`],
+    ['Order-bump take rate / price', `${s.bumpTake}% / ${money(s.bumpPrice)}`],
+    ['Upsell take rate / price', `${s.upTake}% / ${money(s.upPrice)}`],
+  ];
+  const caveat = 'This models one webinar and its replay/follow-up sales. Figures are estimates, not guaranteed results. Gross revenue is not cash collected or profit and does not deduct ad spend, fees, refunds, taxes, fulfillment, or other costs. VIP, bump, and upsell assumptions are included; review them if those offers do not apply to your business.';
+  const text = [
+    `Hi ${form.contact.firstName},`,
+    'Here is your forecast for one webinar, based on the numbers you submitted.',
+    ...metrics.map(([label, value]) => `${label}: ${value}`),
+    'YOUR ASSUMPTIONS',
+    ...assumptions.map(([label, value]) => `${label}: ${value}`),
+    'Want to pressure-test these numbers? Book a 30-minute Webinar Forecast Review:',
+    bookingUrl,
+    'Already booked? Keep your existing appointment. No need to book again.',
+    'Questions or corrections? Reply to this email to reach the WebinarOps team.',
+    caveat,
+    'Earnings disclaimer: https://www.webinarops.io/earnings-disclaimer',
+    'Privacy policy: https://www.webinarops.io/privacy-policy',
+    'You received this email because this address was submitted through the WebinarOps forecaster. If you did not request it, reply to let us know.',
+  ].join('\n\n');
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+  <body style="margin:0;background:#f3f5f9;font-family:Arial,Helvetica,sans-serif;color:#111827">
+    <div style="max-width:600px;margin:0 auto;background:#fff">
+      <div style="padding:28px 24px;background:#05070b;color:#fff"><div style="font-size:18px;font-weight:700">Webinar<span style="color:#5d8bff">Ops</span></div><h1 style="font-size:27px;line-height:1.2;margin:22px 0 8px">Your forecast for one webinar.</h1><p style="color:#a8b3c4;font-size:14px;line-height:1.6;margin:0">A copy of your model, ready to review.</p></div>
+      <div style="padding:28px 24px">
+        <p style="font-size:15px;line-height:1.7">Hi ${escapeHtml(form.contact.firstName)},</p>
+        <p style="font-size:15px;line-height:1.7">Here are the numbers from your forecast, including this webinar’s replay and follow-up sales.</p>
+        ${section('Your per-webinar forecast', metrics.map(([label, value]) => row(label, value)).join(''))}
+        ${section('Assumptions included in your model', assumptions.map(([label, value]) => row(label, value)).join(''))}
+        <h2 style="font-size:20px;margin:30px 0 10px">Let’s pressure-test the assumptions.</h2>
+        <p style="font-size:14px;line-height:1.7">Book a 30-minute Webinar Forecast Review to check the inputs and discuss the next step for your business.</p>
+        <a href="${bookingUrl}" style="display:inline-block;background:#2f6bff;color:#fff;padding:15px 20px;border-radius:7px;font-size:14px;font-weight:700;text-decoration:none">Book My Forecast Review</a>
+        <p style="font-size:12px;line-height:1.7;color:#6b7688">Already booked? Keep your existing appointment. No need to book again.</p>
+        <p style="font-size:14px;line-height:1.7">Questions or corrections? Reply to this email to reach our team.</p>
+        <div style="margin-top:28px;padding-top:20px;border-top:1px solid #e5e7eb;font-size:12px;line-height:1.7;color:#6b7688">
+          <p>${caveat}</p><p><a href="https://www.webinarops.io/earnings-disclaimer" style="color:#2458cf">Earnings disclaimer</a> &middot; <a href="https://www.webinarops.io/privacy-policy" style="color:#2458cf">Privacy policy</a></p>
+          <p>You received this email because this address was submitted through the WebinarOps forecaster. If you did not request it, reply to let us know.</p>
+        </div>
+      </div>
+    </div>
+  </body></html>`;
+  return { html, text };
+}
+
 export const POST: APIRoute = async ({ request }) => {
   let body: SubmitBody;
   try {
@@ -109,12 +176,42 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const c = body?.form?.contact;
-  if (!c || !c.firstName?.trim() || !c.lastName?.trim() || !c.email?.trim()) {
+  if (!c || ![c.firstName, c.lastName, c.email].every(value => typeof value === 'string' && value.trim() && value.length <= 254)) {
     return new Response(JSON.stringify({ error: 'First name, last name, and email are required.' }), { status: 400 });
   }
-  if (!body.form.consentEstimate) {
+  c.firstName = c.firstName.trim();
+  c.lastName = c.lastName.trim();
+  c.email = c.email.trim();
+  c.company = typeof c.company === 'string' ? c.company.trim().slice(0, 254) : '';
+  // Only a single mailbox is accepted; never allow recipient lists or header markup.
+  if (!/^[^\s@<>,;]+@[^\s@<>,;]+\.[^\s@<>,;]+$/.test(c.email) || /[\r\n]/.test(c.firstName + c.lastName + c.company)) {
+    return new Response(JSON.stringify({ error: 'Please enter a valid name and email address.' }), { status: 400 });
+  }
+  if (body.form.consentEstimate !== true) {
     return new Response(JSON.stringify({ error: 'Please acknowledge that forecasts are estimates before submitting.' }), { status: 400 });
   }
+
+  const scenario = body.form.scenario;
+  if (!scenario || Object.keys(defaultScenario).some(key => {
+    const value = scenario[key as keyof typeof scenario];
+    return typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 1e9;
+  })) {
+    return new Response(JSON.stringify({ error: 'Please check your forecast inputs.' }), { status: 400 });
+  }
+  // Email calculated results from validated inputs, not client-supplied totals.
+  body.calculated = { target: calcScenario(scenario, 1), conservative: calcScenario(scenario, 0.78), upside: calcScenario(scenario, 1.18) };
+  const qualification = { ...emptyQualification };
+  for (const key of Object.keys(qualification) as (keyof typeof qualification)[]) {
+    const value = body.form.qualification?.[key];
+    qualification[key] = value === 'yes' || value === 'no' || value === 'unsure' ? value : '';
+  }
+  body.form.qualification = qualification;
+  const attribution: ForecastForm['attribution'] = { landingPage: '', referrer: '', utmSource: '', utmMedium: '', utmCampaign: '', utmTerm: '', utmContent: '', capturedAt: '' };
+  for (const key of Object.keys(attribution) as (keyof typeof attribution)[]) {
+    const value = body.form.attribution?.[key];
+    attribution[key] = typeof value === 'string' ? value.slice(0, 2000) : '';
+  }
+  body.form.attribution = attribution;
 
   const apiKey = getEnv('RESEND_API_KEY');
   const to = getEnv('FORECAST_NOTIFY_TO') || 'alo@webinarops.io';
@@ -128,16 +225,25 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const resend = new Resend(apiKey);
     const { yes, total } = fitScore(body.form.qualification);
-    const { error } = await resend.emails.send({
+    const customerEmail = buildCustomerEmail(body);
+    const emails = [{
       from,
       to,
       replyTo: c.email,
       subject: `[Fit ${yes}/${total}] New forecast: ${c.firstName} ${c.lastName}${c.company ? ` (${c.company})` : ''}`,
       html: buildEmailHtml(body),
-    });
-    if (error) {
-      console.error('submit-forecast: Resend error', error);
-      return new Response(JSON.stringify({ error: 'Failed to send notification email.' }), { status: 502 });
+    }, {
+      from,
+      to: c.email,
+      replyTo: 'alo@webinarops.io',
+      subject: 'Your per-webinar forecast | WebinarOps',
+      ...customerEmail,
+    }];
+    const idempotencyKey = `forecast-v2/${createHash('sha256').update(JSON.stringify(emails)).digest('hex')}`;
+    const { data, error } = await resend.batch.send(emails, { idempotencyKey });
+    if (error || data?.data?.length !== 2) {
+      console.error('submit-forecast: Resend batch failed', { name: error?.name ?? 'incomplete_response' });
+      return new Response(JSON.stringify({ error: 'We could not send your forecast emails. Please try again.' }), { status: 502 });
     }
   } catch (err) {
     console.error('submit-forecast: unexpected error', err);

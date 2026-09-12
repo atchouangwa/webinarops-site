@@ -191,6 +191,9 @@ export default function ForecastWizard() {
             <p style={{ margin: '26px 0 36px', maxWidth: '66ch', fontSize: 17, lineHeight: 1.6, color: '#A8B3C4' }}>
               This models one webinar, including its replay and follow-up sales, using the assumptions you entered. If you want a second pair of eyes on those assumptions and the constraint capping the model, book a 30-minute Webinar Forecast Review.
             </p>
+            <p style={{ margin: '0 0 24px', fontSize: 14, lineHeight: 1.6, color: '#A8B3C4' }}>
+              Your forecast email is on its way to <strong style={{ color: '#DCE5F3', overflowWrap: 'anywhere' }}>{contact.email}</strong>. Check your spam or promotions folder if it doesn’t arrive.
+            </p>
             <ForecastProgress booked={booked} />
           </div>
         </section>
@@ -337,7 +340,7 @@ export default function ForecastWizard() {
               <div className="eyebrow" style={{ marginBottom: 10 }}>LAST STEP</div>
               <h2 style={{ margin: '0 0 12px', fontSize: 'clamp(24px,3.4vw,32px)', fontWeight: 800, letterSpacing: '-.02em' }}>Ready to build it.</h2>
               <p style={{ margin: '0 0 28px', fontSize: 15.5, lineHeight: 1.6, color: '#8D9AAF' }}>
-                See the forecast for this one webinar on the next screen and send your numbers to our team for review.
+                See the forecast for this one webinar on the next screen. We’ll also email a copy to {contact.email} and send your numbers to our team for review.
               </p>
               <div style={{ padding: '16px 18px', border: '1px solid rgba(255,255,255,.1)', borderRadius: 10, marginBottom: 24 }}>
                 <label style={{ display: 'flex', gap: 12, alignItems: 'flex-start', cursor: 'pointer' }}>
