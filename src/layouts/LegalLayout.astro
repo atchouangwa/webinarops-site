@@ -1,0 +1,85 @@
+---
+import Layout from './Layout.astro';
+interface Props {
+  title: string;
+  description: string;
+  summary: string;
+  sections: { id: string; label: string }[];
+}
+const { title, description, summary, sections } = Astro.props;
+const pages = [
+  { href: '/terms-of-service', label: 'Terms of Service' },
+  { href: '/privacy-policy', label: 'Privacy Policy' },
+  { href: '/earnings-disclaimer', label: 'Earnings Disclaimer' },
+];
+const currentPath = Astro.url.pathname.replace(/\/$/, '');
+---
+<Layout title={`${title} — WebinarOps`} description={description}>
+  <main class="legal-page" id="main-content">
+    <div class="legal-header">
+      <a class="legal-back" href="/">← Back to WebinarOps</a>
+      <div class="eyebrow">WEBINAROPS · LEGAL</div>
+      <h1>{title}</h1>
+      <p class="legal-date">Effective date: September 12, 2026 · Last updated: September 12, 2026</p>
+      <p class="legal-summary">{summary}</p>
+    </div>
+    <div class="legal-grid">
+      <aside class="legal-sidebar">
+        <nav aria-label="Legal pages" class="legal-nav">
+          <p>OUR POLICIES</p>
+          {pages.map(page => <a href={page.href} aria-current={currentPath === page.href ? 'page' : undefined}>{page.label}</a>)}
+        </nav>
+        <nav aria-label="On this page" class="legal-toc">
+          <p>ON THIS PAGE</p>
+          {sections.map(section => <a href={`#${section.id}`}>{section.label}</a>)}
+        </nav>
+      </aside>
+      <article class="legal-copy" aria-label={title}>
+        <slot />
+        <div class="legal-contact">
+          <h2>Questions?</h2>
+          <p>Contact WebinarOps at <a href="mailto:alo@webinarops.io">alo@webinarops.io</a>.</p>
+        </div>
+      </article>
+    </div>
+  </main>
+</Layout>
+<style>
+  .legal-page { max-width: 1180px; margin: 0 auto; padding: 64px 32px 96px; }
+  .legal-back { display: inline-block; margin-bottom: 44px; color: #a8b3c4; font-size: 14px; }
+  .legal-header { max-width: 850px; padding-bottom: 44px; }
+  h1 { margin: 14px 0 20px; font-size: clamp(34px, 5vw, 58px); line-height: 1.08; letter-spacing: -.04em; }
+  .legal-date { color: #8d9aaf; font-size: 13px; line-height: 1.7; margin: 0 0 24px; }
+  .legal-summary { margin: 0; color: #dce5f3; font-size: 18px; line-height: 1.65; max-width: 68ch; }
+  .legal-grid { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 64px; padding-top: 36px; border-top: 1px solid rgba(255,255,255,.12); }
+  .legal-sidebar { align-self: start; position: sticky; top: 100px; }
+  .legal-sidebar nav { display: grid; gap: 4px; }
+  .legal-sidebar nav + nav { margin-top: 32px; }
+  .legal-sidebar p { font-size: 10px; letter-spacing: .18em; color: #8d9aaf; font-weight: 600; margin: 0 0 12px; }
+  .legal-sidebar a { display: block; padding: 10px 12px; border-radius: 6px; font-size: 13px; line-height: 1.5; color: #a8b3c4; }
+  .legal-sidebar a:hover { background: #0b1220; color: #fff; }
+  .legal-sidebar a[aria-current='page'] { background: rgba(47,107,255,.12); color: #80a6ff; }
+  .legal-copy { min-width: 0; max-width: 74ch; }
+  .legal-copy :global(section) { scroll-margin-top: 100px; margin-bottom: 36px; }
+  .legal-copy :global(h2) { font-size: 21px; line-height: 1.35; letter-spacing: -.02em; color: #f5f7fb; margin: 0 0 16px; }
+  .legal-copy :global(p), .legal-copy :global(li) { color: #b9c4d5; font-size: 15.5px; line-height: 1.8; }
+  .legal-copy :global(p) { margin: 0 0 16px; }
+  .legal-copy :global(ul) { padding-left: 22px; margin: 16px 0; }
+  .legal-copy :global(li) { margin: 8px 0; }
+  .legal-copy :global(strong) { color: #e5ebf5; }
+  .legal-copy :global(a) { color: #80a6ff; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+  .legal-page :global(a:focus-visible) { outline: 2px solid #80a6ff; outline-offset: 4px; border-radius: 3px; }
+  .legal-contact { padding: 26px; border: 1px solid rgba(47,107,255,.25); border-radius: 12px; background: #080e19; }
+  .legal-contact p { margin-bottom: 0; }
+  @media(max-width: 820px) {
+    .legal-page { padding: 36px 22px 64px; }
+    .legal-back { margin-bottom: 32px; }
+    .legal-grid { grid-template-columns: 1fr; gap: 36px; }
+    .legal-sidebar { position: static; }
+    .legal-sidebar .legal-nav { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+    .legal-nav p { grid-column: 1 / -1; }
+    .legal-sidebar a { padding: 10px 8px; }
+    .legal-sidebar .legal-toc { display: none; }
+    .legal-summary { font-size: 16px; }
+  }
+</style>

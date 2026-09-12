@@ -345,6 +345,9 @@ export default function ForecastWizard() {
                   <span style={{ fontSize: 13.5, lineHeight: 1.6, color: '#A8B3C4' }}>I understand that forecasts are estimates based on the information and assumptions provided, and are not guarantees of revenue, profitability, advertising performance, or business results.</span>
                 </label>
               </div>
+              <p style={{ margin: '0 0 20px', fontSize: 12.5, lineHeight: 1.7, color: '#8D9AAF' }}>
+                Before submitting, read our <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>, <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>, and <a href="/earnings-disclaimer" target="_blank" rel="noopener noreferrer">Earnings Disclaimer</a>. Links open in a new tab so you can keep your forecast inputs.
+              </p>
               {submitStatus === 'error' && (
                 <div style={{ marginBottom: 20, padding: '14px 16px', border: '1px solid rgba(255,98,98,.35)', background: 'rgba(255,98,98,.06)', borderRadius: 8, fontSize: 13.5, lineHeight: 1.5, color: '#FFB3B3' }}>
                   {submitError || 'Something went wrong sending your forecast.'} Please try again, or email <a href="mailto:alo@webinarops.io">alo@webinarops.io</a> directly.

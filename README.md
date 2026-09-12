@@ -72,9 +72,9 @@ belongs to this project, and includes Production, then create a new deployment.
 - The mockup's persistent Back/Continue footer bar also rendered (harmlessly)
   underneath step 6, next to that step's own submit button. That redundant
   "Continue" is hidden on step 6 here.
-- Legal footer links (Privacy Policy, Terms, Earnings Disclaimer) are still
-  `#` placeholders, as they were in the mockup — no legal copy was provided
-  to build real pages from.
+- Legal pages are available at `/privacy-policy`, `/terms-of-service`, and
+  `/earnings-disclaimer`, with links in the footer and forecast submission screen.
+  They share a responsive layout and are included in the generated sitemap.
 
 ## Forecast scope
 
@@ -83,3 +83,17 @@ and follow-up sales. Ad budget is the total spend for that webinar’s registrat
 campaign; organic registrations are for the same event. Conservative, target, and
 upside are alternative outcomes for that one event, not additional runs. The
 homepage illustration uses the same calculator and default assumptions.
+
+## Legal content maintenance
+
+The legal pages describe the website implementation as of September 12, 2026:
+Vercel hosting, Google Analytics and Fonts, Calendly scheduling, and Resend
+notifications. Review the privacy policy whenever providers, tracking, retention,
+or data uses change. Confirm operational practices and jurisdiction-specific
+requirements with counsel; these pages are not a legal compliance certification.
+No cookie-consent manager or new data-retention automation is introduced here.
+
+Research references:
+- [FTC advertising guidance](https://www.ftc.gov/business-guidance/resources/advertising-faqs-guide-small-business)
+- [FTC privacy and security guidance](https://www.ftc.gov/business-guidance/privacy-security)
+- [Google Analytics terms](https://marketingplatform.google.com/about/analytics/terms/us/)

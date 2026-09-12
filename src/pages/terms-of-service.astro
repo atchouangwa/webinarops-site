@@ -1,0 +1,50 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+export const prerender = true;
+const sections = [
+  {id:'scope',label:'Scope and eligibility'}, {id:'services',label:'Services and agreements'},
+  {id:'forecasts',label:'Forecasts and decisions'}, {id:'use',label:'Acceptable use'},
+  {id:'content',label:'Content and submissions'}, {id:'third-parties',label:'Third-party services'},
+  {id:'liability',label:'Availability and liability'}, {id:'disputes',label:'Disputes and governing law'},
+  {id:'updates',label:'Changes to these terms'},
+];
+---
+<LegalLayout title="Terms of Service" description="Terms governing use of the WebinarOps website, webinar forecaster, and related website resources." summary="These terms cover your use of our website and forecaster. Paid client engagements are governed by a separate written agreement." sections={sections}>
+  <section id="scope"><h2>1. Scope and eligibility</h2>
+    <p>These Terms of Service apply to the website at webinarops.io, including the webinar forecaster and related website resources, operated by WebinarOps, a Wyoming limited liability company (“WebinarOps,” “we,” “us,” or “our”). Please read them before using the site. If you do not agree with these terms, do not use the site or submit information through it.</p>
+    <p>The site is intended for adults evaluating services for their business. You must be at least 18 and have authority to provide any business information you submit. These website terms do not replace a signed client agreement, statement of work, or other separately agreed terms.</p>
+  </section>
+  <section id="services"><h2>2. Services and separate agreements</h2>
+    <p>WebinarOps builds, launches, operates, and optimizes webinar funnels. Website descriptions explain our approach; they are not a commitment to provide a particular deliverable, price, timeline, or outcome.</p>
+    <p>Submitting a forecast or booking a review does not create a paid engagement or obligate either party to proceed. Scope, fees, payment schedules, profit-sharing arrangements, client responsibilities, cancellation, refunds, and ownership of client deliverables are established in the applicable written agreement. That agreement controls if it conflicts with these terms concerning the engagement.</p>
+    <p>Advertising spend is separate from service fees and is paid directly by the client to the advertising platforms unless the applicable written agreement expressly provides otherwise. A forecast result does not create a refund entitlement or performance guarantee.</p>
+  </section>
+  <section id="forecasts"><h2>3. Forecasts and business decisions</h2>
+    <p>The forecaster produces estimates for <strong>one webinar and its associated replay and follow-up sales</strong>. Outputs depend on the inputs and assumptions used, including default assumptions. They are not promises, verified business results, or a determination that a campaign is financially suitable for you.</p>
+    <p>You are responsible for checking inputs, understanding costs, and making your own spending and business decisions. Website content is general business information, not individualized legal, tax, accounting, or investment advice. Read the <a href="/earnings-disclaimer">Earnings Disclaimer</a> for the model’s limitations.</p>
+  </section>
+  <section id="use"><h2>4. Acceptable use</h2>
+    <p>Use the site lawfully and without interfering with other users or our systems. Do not:</p>
+    <ul><li>Submit false identities, spam, malicious files, or information you are not authorized to disclose.</li><li>Attempt unauthorized access, bypass access controls, or disrupt the site or its integrations.</li><li>Use automated submissions or excessive requests that impair the service.</li><li>Use our branding, content, or forecasts to misrepresent an affiliation or a guaranteed result.</li></ul>
+    <p>We may restrict access that violates these terms or threatens the site’s security or availability, subject to applicable law.</p>
+  </section>
+  <section id="content"><h2>5. Content and information you submit</h2>
+    <p>WebinarOps and its licensors retain their rights in the site’s branding, design, text, code, and other materials. You may view the site and use your forecast for internal business evaluation. This does not grant ownership of our materials or permission to resell the forecaster.</p>
+    <p>You retain your rights in the information you provide. By submitting it, you authorize us to process it to generate your forecast, evaluate your inquiry, communicate with you, and provide requested services, as described in our <a href="/privacy-policy">Privacy Policy</a>. This does not grant permission to publish your confidential business information or use your name as an endorsement.</p>
+    <p>Do not enter passwords, API keys, payment-card information, sensitive personal records, or customer-level data into the forecast form.</p>
+  </section>
+  <section id="third-parties"><h2>6. Third-party services</h2>
+    <p>The website uses third-party services for hosting, analytics, email delivery, and scheduling. Links and embedded tools, including Calendly, may be subject to their providers’ terms and privacy policies. We do not control third-party availability, pricing, account decisions, or platform changes.</p>
+  </section>
+  <section id="liability"><h2>7. Availability and limits of liability</h2>
+    <p>To the extent permitted by law, the website and calculator are provided “as is” and “as available,” without warranties of uninterrupted operation, error-free output, fitness for a particular purpose, or business results. We may correct errors or modify website features.</p>
+    <p>To the extent permitted by law, WebinarOps is not liable for indirect, incidental, special, or consequential losses arising from use of the website or reliance on its estimates, including lost profits or business opportunities. Nothing in these terms excludes liability for fraud, willful misconduct, or any liability or consumer right that cannot lawfully be limited. Liability relating to paid services is governed by the applicable client agreement.</p>
+  </section>
+  <section id="disputes"><h2>8. Disputes and governing law</h2>
+    <p>Please first contact <a href="mailto:alo@webinarops.io">alo@webinarops.io</a> with a description of any dispute so we can attempt to resolve it through good-faith negotiation. This request does not prevent urgent relief, regulatory complaints, or the exercise of rights within applicable deadlines.</p>
+    <p>These website terms are governed by Wyoming law, excluding its conflict-of-law rules, except where applicable law requires otherwise. Mandatory protections and rights available in your jurisdiction remain in effect. A separate client agreement may set out additional dispute-resolution terms for that engagement.</p>
+  </section>
+  <section id="updates"><h2>9. Changes and interpretation</h2>
+    <p>We may update these terms by posting a revised version and changing the date above. Changes apply prospectively and do not amend a signed client agreement. Where additional notice or agreement is required by law, it must be provided. If a provision is unenforceable, the remaining provisions continue to apply to the extent permitted by law.</p>
+  </section>
+</LegalLayout>

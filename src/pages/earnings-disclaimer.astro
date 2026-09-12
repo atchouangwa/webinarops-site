@@ -1,0 +1,38 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+export const prerender = true;
+const sections = [
+  {id:'no-guarantee',label:'No earnings guarantee'}, {id:'model',label:'How the forecast works'},
+  {id:'gross',label:'Revenue, cash, and profit'}, {id:'examples',label:'Examples and results'},
+  {id:'risk',label:'Business and advertising risk'}, {id:'agreements',label:'Agreements and decisions'},
+];
+---
+<LegalLayout title="Earnings Disclaimer" description="Important limits on WebinarOps forecasts, demonstration figures, revenue estimates, and advertising performance claims." summary="A forecast is a model built from assumptions. It is not a promise of revenue, profit, cash collected, or advertising performance." sections={sections}>
+  <section id="no-guarantee"><h2>1. No earnings or performance guarantee</h2>
+    <p>WebinarOps does not guarantee earnings, revenue, profitability, registrations, attendance, sales, conversion rates, customer acquisition costs, or return on advertising spend. A forecast, example, strategy discussion, or service engagement does not assure that you will achieve a particular result or recover your investment.</p>
+    <p>Actual outcomes may be substantially lower than an estimate, including no sales or a financial loss. Prior performance does not establish what a future campaign will achieve.</p>
+  </section>
+  <section id="model"><h2>2. What the webinar forecaster models</h2>
+    <p>The calculator models <strong>one webinar and its associated replay and follow-up sales</strong>. The ad budget and organic registrations you enter must relate to that same event. Conservative, target, and upside results are alternative scenarios for one webinar, not additional webinar runs.</p>
+    <p>Inputs include registration cost, live attendance, attendee conversion, offer price, and additional replay buyers. The model also includes default VIP, order-bump, and upsell rates and prices. Those defaults are illustrative assumptions, not verified facts about your offer or established industry averages. If you do not offer those products or your rates differ, the displayed total may overstate your expected revenue; ask us to review the assumptions before relying on it.</p>
+    <p>Scenario adjustments change attendance and conversion assumptions. They are not statistical confidence intervals, proven probabilities, or best- and worst-case limits. The calculator does not independently verify your inputs, assess demand, or predict market changes. Displayed people counts are rounded estimates.</p>
+  </section>
+  <section id="gross"><h2>3. Gross revenue is not cash collected or profit</h2>
+    <p>Gross revenue is modelled from estimated buyers, offer prices, and the monetization assumptions included in the calculator. It does not necessarily reflect cash received during the webinar or its follow-up period, particularly when customers pay in installments.</p>
+    <p>Displayed gross revenue does not deduct refunds, chargebacks, taxes, payment-processing fees, financing costs, sales commissions, fulfillment, software, agency fees, or other operating expenses. The calculator’s revenue-to-ad-spend ratio is a modelled ROAS figure, not net return on investment. Where contribution is discussed, subtracting ad spend alone does not produce net profit.</p>
+    <p>Evaluate all relevant costs, payment timing, collection risk, and obligations before deciding what you can afford to spend.</p>
+  </section>
+  <section id="examples"><h2>4. Demonstration figures and specific results</h2>
+    <p>Dashboard images identified as demonstration data and the homepage’s illustrative forecast show how the service or calculator works. They do not establish actual WebinarOps or client earnings. The homepage forecast uses the calculator’s example assumptions; it is not a result you should expect to achieve.</p>
+    <p>Any actual result or testimonial identified elsewhere relates to its stated circumstances. It should not be treated as typical or generally attainable without supporting information about expected results and relevant conditions. Ask for clarification if it is unclear whether a figure is hypothetical, modelled, reported, collected, or net of costs.</p>
+    <p>This disclaimer does not replace the need for accurate, supported claims and clear disclosures alongside a particular example or result.</p>
+  </section>
+  <section id="risk"><h2>5. Business and advertising risk</h2>
+    <p>Outcomes depend on factors including offer quality, market demand, pricing, audience fit, ad costs, creative performance, registration conversion, attendance, sales execution, follow-up, payment collection, fulfillment, and platform policies. Some factors are outside WebinarOps’ control.</p>
+    <p>Paid advertising involves risk and can produce losses. Ad spend is paid separately and directly to the advertising platforms unless a written agreement states otherwise. Repeating a webinar or increasing its budget does not ensure that prior performance will continue or scale proportionately.</p>
+  </section>
+  <section id="agreements"><h2>6. Decisions and written agreements</h2>
+    <p>Use the forecaster as a planning tool and a starting point for reviewing assumptions. Obtain independent legal, tax, accounting, or other professional advice when your decision requires it.</p>
+    <p>Specific service obligations, fees, cancellation terms, and any expressly agreed remedies are governed by the signed client agreement. This disclaimer does not remove non-waivable legal rights or excuse misleading statements. Read it together with our <a href="/terms-of-service">Terms of Service</a> and <a href="/privacy-policy">Privacy Policy</a>.</p>
+  </section>
+</LegalLayout>

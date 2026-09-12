@@ -1,0 +1,63 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+export const prerender = true;
+const sections = [
+  {id:'scope',label:'Scope'}, {id:'collection',label:'Information collected'}, {id:'use',label:'How information is used'},
+  {id:'providers',label:'Providers and disclosures'}, {id:'cookies',label:'Analytics and cookies'},
+  {id:'retention',label:'Retention and security'}, {id:'choices',label:'Your choices and rights'},
+  {id:'children',label:'Children'}, {id:'changes',label:'Policy updates'},
+];
+---
+<LegalLayout title="Privacy Policy" description="How WebinarOps handles website visits, forecast submissions, scheduling information, analytics, and privacy requests." summary="This policy explains what our website collects, why we use it, which services help us process it, and how to contact us about your information." sections={sections}>
+  <section id="scope"><h2>1. Who this policy covers</h2>
+    <p>WebinarOps, a Wyoming limited liability company, operates webinarops.io. This policy covers information collected through this website, the webinar forecaster, related inquiries, and review-call scheduling. Contact <a href="mailto:alo@webinarops.io">alo@webinarops.io</a> with privacy questions or requests.</p>
+    <p>Data we process on behalf of a client’s business, including that client’s audience or customers, may be subject to separate service and data-processing agreements and the client’s own privacy notice. This policy does not replace those notices.</p>
+  </section>
+  <section id="collection"><h2>2. Information collected</h2>
+    <ul>
+      <li><strong>Contact information:</strong> first and last name, email address, and an optional company or brand name submitted through the forecast form, plus information you choose to include in correspondence.</li>
+      <li><strong>Business and forecast inputs:</strong> answers about offer validation, paid acquisition, fulfillment, and business fit; ad budget for one webinar; expected registration costs, organic registrations, attendance and conversion rates, offer price, replay assumptions, and the resulting modelled figures.</li>
+      <li><strong>Submission context:</strong> your acknowledgement that forecasts are estimates, the landing-page path and query string, referring page, campaign attribution parameters available in the URL, and a capture timestamp.</li>
+      <li><strong>Scheduling information:</strong> contact details, selected appointment time, and answers you provide when booking through Calendly. Calendly supplies the booking experience.</li>
+      <li><strong>Technical and usage information:</strong> requests to our website and embedded providers expose technical information such as IP address and browser information to those providers. Hosting logs and analytics may record page visits, device/browser characteristics, timestamps, referral information, and interaction data.</li>
+    </ul>
+    <p>The forecast form does not ask for payment-card details, passwords, API keys, or individual customer records. Please do not include sensitive personal information in your submission or in page URLs.</p>
+  </section>
+  <section id="use"><h2>3. How information is used</h2>
+    <p>We use submitted information to calculate and review forecasts, assess whether our services fit your business, respond to requests, arrange meetings, and discuss requested services. Submission data is transmitted to our server and emailed to the WebinarOps team. It is not a public posting.</p>
+    <p>Technical and usage information helps operate and troubleshoot the site, understand traffic sources and website engagement, and identify misuse. We may also use information as necessary to comply with legal obligations or protect legitimate rights.</p>
+    <p>Submitting a forecast requests a response about that inquiry. It is not consent to unrelated third parties contacting you for their own marketing.</p>
+  </section>
+  <section id="providers"><h2>4. Providers and other disclosures</h2>
+    <p>The current website uses:</p>
+    <ul>
+      <li><strong>Vercel:</strong> website hosting and server execution, including processing form requests and associated operational logs.</li>
+      <li><strong>Resend:</strong> sending forecast notification emails containing submitted contact details, business inputs, calculated results, and attribution information to the WebinarOps team.</li>
+      <li><strong>Calendly:</strong> embedded scheduling and meeting-related communications when you book a review.</li>
+      <li><strong>Google Analytics:</strong> website measurement, including cookies and usage information. Google Fonts also supplies website typography, which involves requests from your browser to Google.</li>
+    </ul>
+    <p>Our email service also processes correspondence and notification emails. Providers may process information in the United States or other countries where they operate. Their handling of data is governed by their applicable terms and privacy policies as well as any agreements with us.</p>
+    <p>Information may be disclosed when necessary to comply with law, respond to lawful requests, protect rights or security, or complete a business reorganization or transfer subject to applicable legal protections. We may also disclose information at your direction.</p>
+  </section>
+  <section id="cookies"><h2>5. Analytics, cookies, and external tools</h2>
+    <p>The website loads Google Analytics to measure visits and engagement. Google Analytics uses cookies or similar identifiers and processes usage data. Learn more about <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">how Google uses data from sites that use its services</a>.</p>
+    <p>You can block or delete cookies through your browser and use the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics opt-out browser add-on</a> in supported browsers. Browser “Do Not Track” settings do not, by themselves, disable the tools loaded by this website. Blocking cookies or third-party scripts may affect scheduling and other functionality.</p>
+    <p>Calendly and other externally loaded services may use their own cookies and technologies. Review the provider’s privacy information before using its tools. Deleting a browser cookie does not delete information already submitted to us.</p>
+  </section>
+  <section id="retention"><h2>6. Retention, security, and international processing</h2>
+    <p>Retention depends on the purpose of the record, whether an inquiry or client relationship remains active, legal and accounting requirements, and the need to resolve disputes. Website submissions may remain in email systems, correspondence, provider logs, or backups according to the applicable retention settings and requirements. You may ask us to delete information as described below; legal obligations and backup limitations may affect what can be removed immediately.</p>
+    <p>No website, email system, or transmission method can be guaranteed completely secure. Limit submissions to information needed for the forecast or inquiry, and contact us if you believe your information has been exposed or misused.</p>
+    <p>If you access the site from outside the United States, your information may be processed in a country with different data-protection rules. Applicable requirements concerning international transfers continue to apply.</p>
+  </section>
+  <section id="choices"><h2>7. Your choices and privacy rights</h2>
+    <p>You may decline to submit a forecast, omit optional information, control cookies in your browser, or ask us to stop promotional follow-up. Use an unsubscribe option where provided or email <a href="mailto:alo@webinarops.io">alo@webinarops.io</a>. Communications necessary to address an active request or service relationship may still be needed.</p>
+    <p>Depending on your location and the laws applicable to us, you may have rights to access, correct, delete, or obtain a copy of personal information; object to or restrict certain processing; withdraw consent where processing relies on consent; or opt out of specified uses or disclosures. You may also have rights to appeal a decision or complain to a data-protection authority.</p>
+    <p>Send requests to the email above, describe what you are asking for, and identify the email address used with us. We may need proportionate information to verify your identity or an agent’s authority. Applicable exemptions may limit a request, and we will explain the response as required by law.</p>
+  </section>
+  <section id="children"><h2>8. Children</h2>
+    <p>This business-services website is intended for adults and is not directed to children. If you believe a child has provided personal information through the site, contact us so we can review and address it.</p>
+  </section>
+  <section id="changes"><h2>9. Policy updates</h2>
+    <p>We may update this policy as the website, services, or practices change. The revised version will show a new last-updated date. Where applicable law requires additional notice or consent for a material change, that requirement still applies.</p>
+  </section>
+</LegalLayout>
