@@ -11,9 +11,8 @@ interface SubmitBody {
 }
 
 function getEnv(key: string): string | undefined {
-  // import.meta.env is statically replaced at build time for server code;
-  // process.env covers platforms (e.g. Vercel) that inject secrets at runtime.
-  return (import.meta.env as Record<string, string | undefined>)[key] ?? process.env[key];
+  // Prefer runtime secrets on Vercel; fall back to Astro's local environment.
+  return process.env[key] || (import.meta.env as Record<string, string | undefined>)[key];
 }
 
 function row(label: string, value: string): string {
@@ -111,7 +110,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   const apiKey = getEnv('RESEND_API_KEY');
   const to = getEnv('FORECAST_NOTIFY_TO') || 'alo@webinarops.io';
-  const from = getEnv('FORECAST_NOTIFY_FROM') || 'WebinarOps Forecast <onboarding@resend.dev>';
+  const from = getEnv('FORECAST_NOTIFY_FROM') || 'WebinarOps Forecast <forecast@updates.webinarops.io>';
 
   if (!apiKey) {
     console.error('submit-forecast: RESEND_API_KEY is not configured.');

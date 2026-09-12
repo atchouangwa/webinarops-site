@@ -26,7 +26,7 @@ npm run dev
 | --- | --- | --- |
 | `RESEND_API_KEY` | Yes, for the forecast email to send | Resend API key. Without it `/api/submit-forecast` returns a 500 and the wizard shows an inline error asking the lead to email `hello@webinarops.com` directly. |
 | `FORECAST_NOTIFY_TO` | No (defaults to `alo@webinarops.io`) | Who receives the notification email for each forecast submission. |
-| `FORECAST_NOTIFY_FROM` | Yes, in production | The `from` address. **Must be on a domain verified in your Resend account** (e.g. `forecast@webinarops.io`) or Resend will reject the send. |
+| `FORECAST_NOTIFY_FROM` | No | Defaults to `WebinarOps Forecast <forecast@updates.webinarops.io>`. **Verify `updates.webinarops.io` in your Resend account** before sending. Any override must also use a verified sending domain. |
 
 ## Deploying to Vercel
 
@@ -34,6 +34,19 @@ The project already targets the Vercel adapter (`astro.config.mjs`). Push this
 directory to a repo, import it in Vercel, and set the environment variables
 above in the Vercel project settings. `npm run build` is the build command
 Vercel will run automatically.
+
+For the existing deployment, use the `webinarops` project in the
+`jake-5083s-projects` Vercel workspace:
+
+1. In Settings → Environment Variables, set `RESEND_API_KEY` as a sensitive
+   server-side variable for Production. Never commit the actual key to GitHub.
+2. Set `FORECAST_NOTIFY_FROM` to
+   `WebinarOps Forecast <forecast@updates.webinarops.io>`. This also replaces any
+   existing sender override that would take precedence over the code default.
+3. Keep `FORECAST_NOTIFY_TO=alo@webinarops.io` unless notifications should go
+   to another inbox.
+4. Confirm `updates.webinarops.io` is verified in Resend, then redeploy to load
+   the environment changes. Configure Preview separately if email testing is needed.
 
 ## What's carried over from the mockup vs. changed for production
 
